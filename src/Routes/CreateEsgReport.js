@@ -2,16 +2,19 @@ import { useEffect, useState } from "react"
 import { getQuestions } from "../ApiCalls/apiCalls"
 import GeneralQuestions from "../Components/GeneralQuestions"
 import LocationQuestions from "../Components/LocationQuestions"
+import TypeOfCustomers from "../Components/TypeOfCustomers"
 
 export default function CreateEsgreport(){
 
     const [ generalQuestions, setGeneralQuestions ] = useState([])
     const [ locationQuestions, setLocationQuestions ] = useState([])
+    const [ typeOfCustomers, setTypeOfCustomers ] = useState([])
  
     async function getAllQuestions(){
         const questions = await getQuestions()
         setGeneralQuestions(questions.generalQuestions)
         setLocationQuestions(questions.locationQuestions)
+        setTypeOfCustomers(questions.typeOfCustomers)
     }
 
     function changeGeneralQuestionsAnswer(e, question){
@@ -47,6 +50,30 @@ export default function CreateEsgreport(){
         
     }
 
+    function changeTypeOfCustomersAnswer(e, index){
+        setTypeOfCustomers((prev) => {
+            let newTypeOfCustomers = [...prev]
+            newTypeOfCustomers[index][1] = e.target.value
+            return newTypeOfCustomers
+        })
+    }
+
+    function addCustomer(){
+        setTypeOfCustomers((prev) => {
+            return prev.length === 1 ? [...prev, [1, "", "cross"]] :[...prev, [prev[prev.length - 1][0] + 1, "", "cross"]]
+        })
+    }
+
+    function removeCustomer(index){
+        setTypeOfCustomers((prev) => {
+            let newTypeOfCustomers = [...prev]
+            newTypeOfCustomers.splice(index, 1)
+            for(let i = index; i < newTypeOfCustomers.length; i++){
+                newTypeOfCustomers[i][0]--;
+            }
+            return newTypeOfCustomers
+        })
+    }
     useEffect(() => {
         getAllQuestions()
     }, [])
@@ -54,6 +81,7 @@ export default function CreateEsgreport(){
         <>
             <GeneralQuestions generalQuestions={generalQuestions} changeGeneralQuestionsAnswer={changeGeneralQuestionsAnswer} />
             <LocationQuestions locationQuestions={locationQuestions} changelocationQuestionsAnswer = {changelocationQuestionsAnswer} />
+            <TypeOfCustomers typeOfCustomers={typeOfCustomers} changeTypeOfCustomersAnswer={changeTypeOfCustomersAnswer} addCustomer={addCustomer} removeCustomer={removeCustomer} />
         </>
     )
 }
