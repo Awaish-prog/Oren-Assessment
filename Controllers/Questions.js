@@ -92,7 +92,7 @@ const generalQuestions = [
     }
 ]
 
-const locations = [
+const locationQuestions = [
     {
         column1: {
             cellType: "label",
@@ -150,7 +150,7 @@ const locations = [
 ]
 
 async function getQuestions(req, res){
-    res.json({status: 200, generalQuestions, locations})
+    res.json({status: 200, generalQuestions, locationQuestions})
 }
 
 module.exports = { getQuestions }
