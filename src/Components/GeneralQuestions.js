@@ -2,6 +2,7 @@ export default function GeneralQuestions({ generalQuestions, changeGeneralQuesti
 
     return (
         <>
+        <h2>General Questions</h2>
         <table>
             {
                 generalQuestions.map((generalQuestion, index) => {

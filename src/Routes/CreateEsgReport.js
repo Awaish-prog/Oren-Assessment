@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getQuestions } from "../ApiCalls/apiCalls"
 import GeneralQuestions from "../Components/GeneralQuestions"
+import LocationQuestions from "../Components/LocationQuestions"
 
 export default function CreateEsgreport(){
 
@@ -10,6 +11,7 @@ export default function CreateEsgreport(){
     async function getAllQuestions(){
         const questions = await getQuestions()
         setGeneralQuestions(questions.generalQuestions)
+        setLocationQuestions(questions.locationQuestions)
     }
 
     function changeGeneralQuestionsAnswer(e, question){
@@ -24,12 +26,34 @@ export default function CreateEsgreport(){
         })
     }
 
+    function changelocationQuestionsAnswer(e, column, level){
+
+        setLocationQuestions((prev) => {
+            let newLocationQuestions = [...prev]
+            if(level === 'National'){
+                newLocationQuestions[1][column] = {
+                    cellType: "number",
+                    value: e.target.value
+                }
+            }
+            else if(level === "International"){
+                newLocationQuestions[2][column] = {
+                    cellType: "number",
+                    value: e.target.value
+                } 
+            }
+            return newLocationQuestions
+        })
+        
+    }
+
     useEffect(() => {
         getAllQuestions()
     }, [])
     return (
         <>
             <GeneralQuestions generalQuestions={generalQuestions} changeGeneralQuestionsAnswer={changeGeneralQuestionsAnswer} />
+            <LocationQuestions locationQuestions={locationQuestions} changelocationQuestionsAnswer = {changelocationQuestionsAnswer} />
         </>
     )
 }
