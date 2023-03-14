@@ -26,4 +26,8 @@ async function signUpApi(name, email, password){
     return await response.json()
 }
 
-export { loginApi, signUpApi }
+async function getQuestions(){
+    let response = await fetch(`${url}api/getQuestions`)
+    return await response.json()
+}
+export { loginApi, signUpApi, getQuestions }
