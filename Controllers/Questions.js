@@ -162,8 +162,286 @@ const typeOfCustomers = [
     ]
 ]
 
+const workerQuestions = [
+    [
+        {
+            cellType: "label",
+            value: "Particulars"
+        },
+        {
+            cellType: "label",
+            value: "Total(A)"
+        },
+        {
+            cellType: "label",
+            value: "No.(B)"
+        },
+        {
+            cellType: "label",
+            value: "%(B/A)"
+        },
+        {
+            cellType: "label",
+            value: "No.(C)"
+        },
+        {
+            cellType: "label",
+            value: "%(C/A)"
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Permanent Employess(D)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Other than Permanent Employees(E)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Total Employees(D + E)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Permanent Workers(F)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Other than Permanent Workers(G)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Total Workers(F + G)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ]
+]
+
+const grievanceQuestions = [
+    [
+        {
+            cellType: "label",
+            value: ""
+        },
+        {
+            cellType: "label",
+            value: "Yes/No"
+        },
+        {
+            cellType: "label",
+            value: "Details"
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Permanents Workers"
+        },
+        {
+            cellType: "select",
+            options: [
+                "N/A",
+                "Yes",
+                "No"
+            ],
+            value: "N/A"
+        },
+        {
+            cellType: "text",
+            value: ""
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Other than Permanents Workers"
+        },
+        {
+            cellType: "select",
+            options: [
+                "N/A",
+                "Yes",
+                "No"
+            ],
+            value: "N/A"
+        },
+        {
+            cellType: "text",
+            value: ""
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Permanent Employees"
+        },
+        {
+            cellType: "select",
+            options: [
+                "N/A",
+                "Yes",
+                "No"
+            ],
+            value: "N/A"
+        },
+        {
+            cellType: "text",
+            value: ""
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Other than Permanent Employees"
+        },
+        {
+            cellType: "select",
+            options: [
+                "N/A",
+                "Yes",
+                "No"
+            ],
+            value: "N/A"
+        },
+        {
+            cellType: "text",
+            value: ""
+        },
+    ],
+]
+
 async function getQuestions(req, res){
-    res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers})
+    res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, grievanceQuestions})
 }
 
 module.exports = { getQuestions }
