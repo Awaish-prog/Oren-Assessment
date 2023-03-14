@@ -149,8 +149,21 @@ const locationQuestions = [
     }
 ]
 
+const typeOfCustomers = [
+    [
+        "S. No",
+        "Type of Customers",
+        "Action"
+    ],
+    [
+        1,
+        "",
+        "cross"
+    ]
+]
+
 async function getQuestions(req, res){
-    res.json({status: 200, generalQuestions, locationQuestions})
+    res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers})
 }
 
 module.exports = { getQuestions }
