@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-
+mongoose.connect(process.env.DB_CONNECT)
 const storage = multer.diskStorage({
     destination: function (req, file, cb){
         cb(null, 'public')

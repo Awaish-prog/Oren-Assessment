@@ -1,3 +1,8 @@
+
+const  { processInputData } = require("../Utils/ProcessData.js") 
+const EsgReport = require("../Schemas/EsgReport.js")
+
+
 const generalQuestions = [
     {
         column1: "Corporate Identity Number (CIN) of the Listed Entity",
@@ -629,8 +634,14 @@ async function getQuestions(req, res){
     res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions})
 }
 
-function saveResponse(req, res){
-    console.log(JSON.stringify(req.body));
+async function saveResponse(req, res){
+    const esgReportData = processInputData(req.body)
+    if(await EsgReport.findOne({cin: esgReportData.cin})){
+        await EsgReport.updateOne({cin: esgReportData.cin}, esgReportData)
+    }
+    else{
+        await EsgReport.create(esgReportData)
+    }
 }
 
 module.exports = { getQuestions, saveResponse }

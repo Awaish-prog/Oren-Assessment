@@ -17,89 +17,61 @@ const EsgReport = new mongoose.Schema(
         queryContact: { type: String },
         reportBoundary: { type: String },
         nationalLocation: {
-            type: {
                 plants: Number,
                 offices: Number,
-            }
         },
         internationalLocation: {
-            type: {
                 plants: Number,
                 offices: Number,
-            }
         },
         typeOfCustomers: [ { type: String } ],
-        permanentEmployess: {
-            type: {
+        permanentEmployees: {
                 male: Number,
                 female: Number
-            }
         },
-        otherThanPermanentEmployess: {
-            type: {
+        otherThanPermanentEmployees: {
                 male: Number,
                 female: Number
-            }
         },
         permanentWorkers: {
-            type: {
                 male: Number,
                 female: Number
-            }
         },
         otherThanPermanentWorkers: {
-            type: {
                 male: Number,
                 female: Number
-            }
         },
-        diffAbledpermanentEmployess: {
-            type: {
+        diffAbledpermanentEmployees: {
                 male: Number,
                 female: Number
-            }
         },
-        diffAbledotherThanPermanentEmployess: {
-            type: {
+        diffAbledotherThanPermanentEmployees: {
                 male: Number,
                 female: Number
-            }
         },
         diffAbledpermanentWorkers: {
-            type: {
                 male: Number,
                 female: Number
-            }
         },
         diffAbledotherThanPermanentWorkers: {
-            type: {
                 male: Number,
                 female: Number
-            }
         },
         grievancesPermanentWorkers: {
-            type: {
                 yesno: String,
                 details: String
-            }
         },
         grievancesOtherThanPermanentWorkers: {
-            type: {
                 yesno: String,
                 details: String
-            }
         },
-        grievancesPermanentEmployess: {
-            type: {
+        grievancesPermanentEmployees: {
                 yesno: String,
                 details: String
-            }
         },
-        grievancesOtherThanPermanentEmployess: {
-            type: {
+        grievancesOtherThanPermanentEmployees: {
                 yesno: String,
                 details: String
-            }
         },
         attachedFiles: [ { type: String } ]
     }
