@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { getQuestions } from "../ApiCalls/apiCalls"
+import { getQuestions, sendEsgDetails } from "../ApiCalls/apiCalls"
 import GeneralQuestions from "../Components/GeneralQuestions"
 import GrievanceQuestions from "../Components/GrievanceQuestions"
 import LocationQuestions from "../Components/LocationQuestions"
 import TypeOfCustomers from "../Components/TypeOfCustomers"
 import WorkerQuestions from "../Components/WorkerQuestions"
+import downloadFile from 'downloadjs';
 
 export default function CreateEsgreport(){
 
@@ -46,21 +47,21 @@ export default function CreateEsgreport(){
             if(level === 'National'){
                 newLocationQuestions[1][column] = {
                     cellType: "number",
-                    value: e.target.value
+                    value: Number(e.target.value).toFixed(0)
                 }
                 newLocationQuestions[1].column4 = {
                     cellType: "value",
-                    value: Number(newLocationQuestions[1].column2.value) + Number(newLocationQuestions[1].column3.value) 
+                    value: (Number(newLocationQuestions[1].column2.value) + Number(newLocationQuestions[1].column3.value)).toFixed(0)
                 }
             }
             else if(level === "International"){
                 newLocationQuestions[2][column] = {
                     cellType: "number",
-                    value: e.target.value
+                    value: Number(e.target.value).toFixed(0)
                 } 
                 newLocationQuestions[2].column4 = {
                     cellType: "value",
-                    value: Number(newLocationQuestions[2].column2.value) + Number(newLocationQuestions[2].column3.value) 
+                    value: (Number(newLocationQuestions[2].column2.value) + Number(newLocationQuestions[2].column3.value)).toFixed(0) 
                 }
             }
             return newLocationQuestions
@@ -181,8 +182,28 @@ export default function CreateEsgreport(){
         })
     }
 
+    async function download(){
+        const filename = "ClassTimes.txt"
+        const response = await fetch("http://localhost:4002/files", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                filename
+            })
+        })
+        const blob = await response.blob();
+        downloadFile(blob, filename);
+    }
+
     function uploadFile(e){
         setFile(e.target.files[0])
+    }
+
+    async function sendDetails(){
+        const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions)
+        
     }
 
     useEffect(() => {
@@ -208,11 +229,13 @@ export default function CreateEsgreport(){
 
             <GrievanceQuestions grievanceQuestions={grievanceQuestions} changeGrievanceQuestions={changeGrievanceQuestions} />
 
+            <button onClick={sendDetails}>Save Details</button>
+
             <form onSubmit={submitFile}>
                 <input type="file" onChange={uploadFile} />
                 <input type="submit" />
             </form>
-            
+            <p onClick={download}>Download</p>
         </>
     )
 }

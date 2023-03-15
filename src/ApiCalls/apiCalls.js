@@ -26,8 +26,21 @@ async function signUpApi(name, email, password){
     return await response.json()
 }
 
+async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions){
+    let response = fetch(`${url}api/saveResponse`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions
+        })
+    })
+    return await response.json()
+}
+
 async function getQuestions(){
     let response = await fetch(`${url}api/getQuestions`)
     return await response.json()
 }
-export { loginApi, signUpApi, getQuestions }
+export { loginApi, signUpApi, getQuestions, sendEsgDetails }
