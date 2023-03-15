@@ -1,4 +1,4 @@
-export default function GrievanceQuestions({ grievanceQuestions }){
+export default function GrievanceQuestions({ grievanceQuestions, changeGrievanceQuestions }){
     return (
         <>
         <table>
@@ -15,17 +15,17 @@ export default function GrievanceQuestions({ grievanceQuestions }){
                                         }
                                         {
                                             grievanceQuestionCell.cellType === "select" &&
-                                            <select>
+                                            <select onChange={(e) => changeGrievanceQuestions(e, index1, index2)} value={grievanceQuestionCell.value}>
                                                 {
                                                     grievanceQuestionCell.options.map((option, index3) => {
-                                                        return <option key={index3}>{option}</option>
+                                                        return <option value={option} key={index3}>{option}</option>
                                                     })
                                                 }
                                             </select>
                                         }
                                         {
                                             grievanceQuestionCell.cellType === "text" &&
-                                            <input type="text" />
+                                            <input onChange={(e) => changeGrievanceQuestions(e, index1, index2)} type="text" value={grievanceQuestionCell.value} />
                                         }
                                     </td>
                                 })

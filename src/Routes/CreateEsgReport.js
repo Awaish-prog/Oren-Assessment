@@ -13,6 +13,9 @@ export default function CreateEsgreport(){
     const [ typeOfCustomers, setTypeOfCustomers ] = useState([])
     const [ workerQuestions, setWorkerQuestions ] = useState([])
     const [ grievanceQuestions, setGrievanceQuestions ] = useState([])
+    const [ workerQuestionsDiffAbled, setWorkerQuestionsDiffAbled ] = useState([])
+    const [ displayDiffAbled, setDisplayDiffAbled ] = useState(false)
+    const [ file, setFile ] = useState(null)
  
     async function getAllQuestions(){
         const questions = await getQuestions()
@@ -21,6 +24,7 @@ export default function CreateEsgreport(){
         setTypeOfCustomers(questions.typeOfCustomers)
         setWorkerQuestions(questions.workerQuestions)
         setGrievanceQuestions(questions.grievanceQuestions)
+        setWorkerQuestionsDiffAbled(questions.workerQuestionsDiffAbled)
     }
 
     function changeGeneralQuestionsAnswer(e, question){
@@ -100,9 +104,87 @@ export default function CreateEsgreport(){
 
             newWorkerQuestions[row][5].value = (Number(newWorkerQuestions[row][4].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
 
+
+            for(let i = 1; i < 6; i++){
+                if(i === 3){
+                    newWorkerQuestions[3][i].value = (Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value) / 2).toFixed(2)
+                }
+                else {
+                    newWorkerQuestions[3][i].value = Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value)
+                }
+            }
+
+            for(let i = 1; i < 6; i++){
+                if(i === 3){
+                    newWorkerQuestions[6][i].value = (Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value) / 2).toFixed(2)
+                }
+                else {
+                    newWorkerQuestions[6][i].value = Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value)
+                }
+            }
+
             return newWorkerQuestions
         })
     }
+
+    function changeWorkerQuestionsDiffAbled(e, row, col){
+        setWorkerQuestionsDiffAbled((prev) => {
+            let newWorkerQuestions = [...prev]
+            newWorkerQuestions[row][col].value = e.target.value
+
+            newWorkerQuestions[row][1].value = Number(newWorkerQuestions[row][2].value) + Number(newWorkerQuestions[row][4].value)
+
+            newWorkerQuestions[row][3].value = (Number(newWorkerQuestions[row][2].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
+
+            newWorkerQuestions[row][5].value = (Number(newWorkerQuestions[row][4].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
+
+
+            for(let i = 1; i < 6; i++){
+                if(i === 3){
+                    newWorkerQuestions[3][i].value = (Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value) / 2).toFixed(2)
+                }
+                else {
+                    newWorkerQuestions[3][i].value = Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value)
+                }
+            }
+
+            for(let i = 1; i < 6; i++){
+                if(i === 3){
+                    newWorkerQuestions[6][i].value = (Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value) / 2).toFixed(2)
+                }
+                else {
+                    newWorkerQuestions[6][i].value = Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value)
+                }
+            }
+
+            return newWorkerQuestions
+        })
+    }
+
+    function changeGrievanceQuestions(e, row, col){
+        setGrievanceQuestions((prev) => {
+            let newGrievanceQuestions = [...prev]
+
+            newGrievanceQuestions[row][col].value = e.target.value
+
+            return newGrievanceQuestions
+        })
+    }
+
+    async function submitFile(e){
+        e.preventDefault()
+        const formData = new FormData();
+        formData.append('file', file);
+        await fetch("http://localhost:4002/upload", {
+            method: "POST",
+            body: formData
+        })
+    }
+
+    function uploadFile(e){
+        setFile(e.target.files[0])
+    }
+
     useEffect(() => {
         getAllQuestions()
     }, [])
@@ -114,9 +196,23 @@ export default function CreateEsgreport(){
 
             <TypeOfCustomers typeOfCustomers={typeOfCustomers} changeTypeOfCustomersAnswer={changeTypeOfCustomersAnswer} addCustomer={addCustomer} removeCustomer={removeCustomer} />
 
-            <WorkerQuestions workerQuestions={workerQuestions} changeWorkerQuestions={changeWorkerQuestions} />
+            <p onClick={() => {setDisplayDiffAbled(false)}}>Employess (Including Differently Abled)</p>
+            
+            <p onClick={() => {setDisplayDiffAbled(true)}}>Differently Abled Employees and Workers</p>
+            
+            {
+                displayDiffAbled ? 
+                <WorkerQuestions workerQuestions={workerQuestionsDiffAbled} changeWorkerQuestions={changeWorkerQuestionsDiffAbled} /> :
+                <WorkerQuestions workerQuestions={workerQuestions} changeWorkerQuestions={changeWorkerQuestions} />
+            }    
 
-            <GrievanceQuestions grievanceQuestions={grievanceQuestions} />
+            <GrievanceQuestions grievanceQuestions={grievanceQuestions} changeGrievanceQuestions={changeGrievanceQuestions} />
+
+            <form onSubmit={submitFile}>
+                <input type="file" onChange={uploadFile} />
+                <input type="submit" />
+            </form>
+            
         </>
     )
 }
