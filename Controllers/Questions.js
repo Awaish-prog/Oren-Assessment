@@ -347,6 +347,191 @@ const workerQuestions = [
     ]
 ]
 
+const workerQuestionsDiffAbled = [
+    [
+        {
+            cellType: "label",
+            value: "Particulars"
+        },
+        {
+            cellType: "label",
+            value: "Total(A)"
+        },
+        {
+            cellType: "label",
+            value: "No.(B)"
+        },
+        {
+            cellType: "label",
+            value: "%(B/A)"
+        },
+        {
+            cellType: "label",
+            value: "No.(C)"
+        },
+        {
+            cellType: "label",
+            value: "%(C/A)"
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Permanent Employess(D)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Other than Permanent Employees(E)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Total Employees(D + E)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Permanent Workers(F)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Other than Permanent Workers(G)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "number",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ],
+    [
+        {
+            cellType: "label",
+            value: "Total Workers(F + G)"
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+        {
+            cellType: "value",
+            value: 0
+        },
+    ]
+]
+
 const grievanceQuestions = [
     [
         {
@@ -441,7 +626,7 @@ const grievanceQuestions = [
 ]
 
 async function getQuestions(req, res){
-    res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, grievanceQuestions})
+    res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions})
 }
 
 module.exports = { getQuestions }
