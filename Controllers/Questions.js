@@ -629,4 +629,8 @@ async function getQuestions(req, res){
     res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions})
 }
 
-module.exports = { getQuestions }
+function saveResponse(req, res){
+    console.log(JSON.stringify(req.body));
+}
+
+module.exports = { getQuestions, saveResponse }
