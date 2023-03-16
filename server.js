@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require("mongoose")
 const multer = require('multer');
+const EsgReport = require("./Schemas/EsgReport.js")
 
 
 
@@ -31,6 +32,9 @@ const upload =  multer({ storage: storage }).single("file");
 
 app.post("/upload", (req, res) => {
     upload(req, res, async function(err){
+        const esgReport = await EsgReport.findOne({cin: req.body.cin})
+        esgReport.attachedFiles.push(req.file.originalname)
+        esgReport.save()
         res.json({status: 200})
     })
 })

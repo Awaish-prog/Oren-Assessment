@@ -5,8 +5,16 @@ const  { updateGeneralQuestions, updateLocationQuestions, updateTypeOfCustomers,
 const EsgReport = require("../Schemas/EsgReport.js")
 const EsgUser = require("../Schemas/EsgUser.js")
 
+let generalQuestions
+let locationQuestions
+let typeOfCustomers
+let workerQuestions
+let workerQuestionsDiffAbled
+let grievanceQuestions
 
-const generalQuestions = [
+
+function initialiseQuestions(){
+ generalQuestions = [
     {
         column1: "Corporate Identity Number (CIN) of the Listed Entity",
         dbKey: "cin",
@@ -113,7 +121,7 @@ const generalQuestions = [
     }
 ]
 
-const locationQuestions = [
+ locationQuestions = [
     {
         column1: {
             cellType: "label",
@@ -172,7 +180,7 @@ const locationQuestions = [
     }
 ]
 
-const typeOfCustomers = [
+ typeOfCustomers = [
     [
         "S. No",
         "Type of Customers",
@@ -185,7 +193,7 @@ const typeOfCustomers = [
     ]
 ]
 
-const workerQuestions = [
+ workerQuestions = [
     [
         {
             cellType: "label",
@@ -374,7 +382,7 @@ const workerQuestions = [
     ]
 ]
 
-const workerQuestionsDiffAbled = [
+ workerQuestionsDiffAbled = [
     [
         {
             cellType: "label",
@@ -563,7 +571,7 @@ const workerQuestionsDiffAbled = [
     ]
 ]
 
-const grievanceQuestions = [
+ grievanceQuestions = [
     [
         {
             cellType: "label",
@@ -659,9 +667,11 @@ const grievanceQuestions = [
         },
     ],
 ]
+}
 
 async function getQuestions(req, res){
     if(req.params.cin === "default"){
+        initialiseQuestions()
         res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions})
     }
     else{
@@ -670,6 +680,7 @@ async function getQuestions(req, res){
             res.json({status: 404})
         }
         else {
+            initialiseQuestions()
             updateGeneralQuestions(generalQuestions, esgReport)
             updateLocationQuestions(locationQuestions, esgReport)
             updateTypeOfCustomers(typeOfCustomers, esgReport)
