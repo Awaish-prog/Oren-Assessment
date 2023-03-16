@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { signUpApi } from "../ApiCalls/apiCalls"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function SignUp(){
+    const navigate = useNavigate()
     const [ name, setName ] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
@@ -22,7 +24,14 @@ export default function SignUp(){
         e.preventDefault()
 
         const response = await signUpApi(name, email, password)
-        console.log(response);
+        if(response.status === 201){
+            sessionStorage.setItem("email", email)
+            sessionStorage.setItem("token", response.token)
+            navigate("/dashboard")
+        }
+        else{
+            console.log("User already exists");
+        }
     }
 
 
@@ -41,6 +50,7 @@ export default function SignUp(){
 
                 <input type="submit" />
             </form>
+            <p>Already have an account? <Link to="/">Login</Link></p>
         </>
     )
 }

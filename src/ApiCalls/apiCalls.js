@@ -14,7 +14,7 @@ async function loginApi(email, password){
 }
 
 async function signUpApi(name, email, password){
-    let response = fetch(`${url}api/signUp`, {
+    let response = await fetch(`${url}api/signUp`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -26,14 +26,19 @@ async function signUpApi(name, email, password){
     return await response.json()
 }
 
-async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions){
+async function getReports(email){
+    let response = await fetch(`${url}api/getReports/${email}`)
+    return await response.json()
+}
+
+async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted){
     let response = fetch(`${url}api/saveResponse`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions
+            generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted
         })
     })
     return await response.json()
@@ -43,4 +48,4 @@ async function getQuestions(cin){
     let response = await fetch(`${url}api/getQuestions/${cin}`)
     return await response.json()
 }
-export { loginApi, signUpApi, getQuestions, sendEsgDetails }
+export { loginApi, signUpApi, getQuestions, sendEsgDetails, getReports }

@@ -1,17 +1,51 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { getReports } from "../ApiCalls/apiCalls"
+import ReportsList from "../Components/ReportsList"
 
 export default function Dashboard(){
+    const navigate = useNavigate()
+    const [ pendingReports, setPendingReports ] = useState([])
+    const [ submittedReports, setSubmittedReports ] = useState([])
+    const [ showPendingReports, setShowPendingReports ] = useState(true)
 
-    const [ reports, setReports ] = useState([])
+    function showPending(){
+        setShowPendingReports(true)
+    }
+
+    function showSubmitted(){
+        setShowPendingReports(false)
+    }
+
+    async function getAllReports(){
+        const email = sessionStorage.getItem("email")
+        const response = await getReports(email)
+    }
+
+    function gotoCreateReport(){
+        navigate("/createEsgReport", { state: {id: "default"}})
+    }
+
+    useEffect(() => {
+        getAllReports()
+    }, [])
+
     return (
         <>
             <h1>Dashboard</h1>
             <nav>
                 <ul>
-                    <li>Create ESG Report</li>
-                    <li>View created reports</li>
+                    <li onClick={gotoCreateReport}>Create ESG Report</li>
+                    <li onClick={showPending}>Pending reports</li>
+                    <li onClick={showSubmitted}>Submitted reports</li>
                 </ul>
             </nav>
+
+            {
+                showPendingReports ?
+                <ReportsList reports = {pendingReports} /> :
+                <ReportsList reports = {submittedReports} />
+            }
 
             
         </>

@@ -6,9 +6,10 @@ import LocationQuestions from "../Components/LocationQuestions"
 import TypeOfCustomers from "../Components/TypeOfCustomers"
 import WorkerQuestions from "../Components/WorkerQuestions"
 import downloadFile from 'downloadjs';
+import { useLocation } from "react-router-dom"
 
 export default function CreateEsgreport(){
-
+    const location = useLocation()
     const [ generalQuestions, setGeneralQuestions ] = useState([])
     const [ locationQuestions, setLocationQuestions ] = useState([])
     const [ typeOfCustomers, setTypeOfCustomers ] = useState([])
@@ -19,7 +20,8 @@ export default function CreateEsgreport(){
     const [ file, setFile ] = useState(null)
  
     async function getAllQuestions(){
-        const questions = await getQuestions("23")
+        const id = location.state.id
+        const questions = await getQuestions(id)
         setGeneralQuestions(questions.generalQuestions)
         setLocationQuestions(questions.locationQuestions)
         setTypeOfCustomers(questions.typeOfCustomers)
@@ -201,8 +203,9 @@ export default function CreateEsgreport(){
         setFile(e.target.files[0])
     }
 
-    async function sendDetails(){
-        const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions)
+    async function sendDetails(submitted){
+        const email = sessionStorage.getItem("email")
+        const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted)
 
     }
 
@@ -229,7 +232,7 @@ export default function CreateEsgreport(){
 
             <GrievanceQuestions grievanceQuestions={grievanceQuestions} changeGrievanceQuestions={changeGrievanceQuestions} />
 
-            <button onClick={sendDetails}>Save Details</button>
+            <button onClick={() => {sendDetails(false)}}>Save Details</button>
 
             <form onSubmit={submitFile}>
                 <input type="file" onChange={uploadFile} />

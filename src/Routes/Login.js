@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { loginApi } from "../ApiCalls/apiCalls"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 
 export default function Login(){
@@ -20,7 +20,17 @@ export default function Login(){
         e.preventDefault()
 
         const response = await loginApi(email, password)
-        response.status === 200 ? navigate("dashboard") : response.status === 404 ? console.log("does not exist") : console.log("wrong password");
+        if(response.status === 200){
+            sessionStorage.setItem("email", email)
+            sessionStorage.setItem("token", response.token)
+            navigate("/dashboard")
+        }
+        else if(response.status === 404){
+            console.log("does not exist") 
+        }
+        else{
+            console.log("wrong password");
+        }
     }
 
 
@@ -36,6 +46,7 @@ export default function Login(){
 
                 <input type="submit" />
             </form>
+            <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
         </>
     )
 }
