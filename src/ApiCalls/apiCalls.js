@@ -39,8 +39,8 @@ async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustome
     return await response.json()
 }
 
-async function getQuestions(){
-    let response = await fetch(`${url}api/getQuestions`)
+async function getQuestions(cin){
+    let response = await fetch(`${url}api/getQuestions/${cin}`)
     return await response.json()
 }
 export { loginApi, signUpApi, getQuestions, sendEsgDetails }

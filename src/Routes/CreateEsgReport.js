@@ -19,7 +19,7 @@ export default function CreateEsgreport(){
     const [ file, setFile ] = useState(null)
  
     async function getAllQuestions(){
-        const questions = await getQuestions()
+        const questions = await getQuestions("23")
         setGeneralQuestions(questions.generalQuestions)
         setLocationQuestions(questions.locationQuestions)
         setTypeOfCustomers(questions.typeOfCustomers)
@@ -203,7 +203,7 @@ export default function CreateEsgreport(){
 
     async function sendDetails(){
         const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions)
-        
+
     }
 
     useEffect(() => {
