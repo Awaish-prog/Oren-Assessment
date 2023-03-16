@@ -672,7 +672,7 @@ function initialiseQuestions(){
 async function getQuestions(req, res){
     if(req.params.cin === "default"){
         initialiseQuestions()
-        res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions})
+        res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, attachedFiles: [], saved: false})
     }
     else{
         const esgReport = await EsgReport.findOne({cin : req.params.cin})
@@ -687,7 +687,7 @@ async function getQuestions(req, res){
             updateWorkerQuestions(workerQuestions, esgReport)
             updateWorkerQuestions(workerQuestionsDiffAbled, esgReport)
             updateGrievanceQuestions(grievanceQuestions, esgReport)
-            res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions})
+            res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, attachedFiles: esgReport.attachedFiles, saved: true})
         }
     }
 }
@@ -703,6 +703,7 @@ async function saveResponse(req, res){
         esgUser.reports.push(esgReportData.cin)
         esgUser.save()
     }
+    res.json({status: 200})
 }
 
 async function getReports(req, res){

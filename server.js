@@ -7,7 +7,7 @@ const EsgReport = require("./Schemas/EsgReport.js")
 
 
 
-
+const { authentication } = require("./Middlewares/Authentication.js")
 const { login, signUp, inviteSomeone} = require("./Controllers/EsgUsers.js")
 const { getQuestions, saveResponse, getReports } = require("./Controllers/Questions.js")
 
@@ -33,6 +33,10 @@ const upload =  multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
     upload(req, res, async function(err){
         const esgReport = await EsgReport.findOne({cin: req.body.cin})
+        if(!esgReport){
+            res.json({status: 404})
+            return
+        }
         esgReport.attachedFiles.push(req.file.originalname)
         esgReport.save()
         res.json({status: 200})
@@ -53,7 +57,7 @@ app.post("/api/inviteSomeone", inviteSomeone)
 
 app.get("/api/getQuestions/:cin", getQuestions)
 
-app.get("/api/getReports/:email", getReports)
+app.get("/api/getReports/:email", authentication, getReports)
 
 app.listen("4002", () => {
     console.log("Server running...")
