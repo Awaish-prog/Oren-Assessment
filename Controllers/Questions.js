@@ -712,10 +712,25 @@ async function getReports(req, res){
     for(let i = 0; i < esgUser.reports.length; i++){
         const esgReport = await EsgReport.findOne({cin: esgUser.reports[i]})
         if(esgReport.submitted){
-            submittedReports.push(esgUser.reports[i])
+            submittedReports.push({
+                cin: esgUser.reports[i],
+                access: true
+            })
         }
         else{
-            pendingReports.push(esgUser.reports[i])
+            pendingReports.push({
+                cin: esgUser.reports[i],
+                access: true
+            })
+        }
+    }
+    for(let i = 0; i < esgUser.sharedReports.length; i++){
+        const esgReport = await EsgReport.findOne({cin: esgUser.sharedReports[i]})
+        if(!esgReport.submitted){
+            pendingReports.push({
+                cin: esgUser.sharedReports[i],
+                access: false
+            })
         }
     }
     res.json({status: 200, pendingReports, submittedReports})

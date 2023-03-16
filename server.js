@@ -8,7 +8,7 @@ const EsgReport = require("./Schemas/EsgReport.js")
 
 
 
-const { login, signUp} = require("./Controllers/EsgUsers.js")
+const { login, signUp, inviteSomeone} = require("./Controllers/EsgUsers.js")
 const { getQuestions, saveResponse, getReports } = require("./Controllers/Questions.js")
 
 require('dotenv').config()
@@ -48,6 +48,8 @@ app.post("/api/saveResponse", saveResponse);
 app.post("/api/login", login)
 
 app.post("/api/signUp", signUp)
+
+app.post("/api/inviteSomeone", inviteSomeone)
 
 app.get("/api/getQuestions/:cin", getQuestions)
 

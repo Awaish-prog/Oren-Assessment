@@ -42,4 +42,11 @@ async function signUp(req, res){
     res.json({ status: 201, token })
 }
 
-module.exports = { login, signUp }
+async function inviteSomeone(req, res){
+    const esgUser = await EsgUser.findOne({email: req.body.email})
+    esgUser.sharedReports.push(req.body.cin)
+    esgUser.save()
+    res.json({status: 200})
+}
+
+module.exports = { login, signUp, inviteSomeone }
