@@ -18,6 +18,7 @@ export default function CreateEsgreport(){
     const [ workerQuestionsDiffAbled, setWorkerQuestionsDiffAbled ] = useState([])
     const [ displayDiffAbled, setDisplayDiffAbled ] = useState(false)
     const [ file, setFile ] = useState(null)
+    const [ fileForm, setFileForm ] = useState(false)
  
     async function getAllQuestions(){
         const id = location.state.id
@@ -178,10 +179,13 @@ export default function CreateEsgreport(){
         e.preventDefault()
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('cin', generalQuestions[0].column2.value)
         await fetch("http://localhost:4002/upload", {
             method: "POST",
             body: formData
         })
+        setFile(null)
+        setFileForm(false)
     }
 
     async function download(){
@@ -209,6 +213,12 @@ export default function CreateEsgreport(){
 
     }
 
+    function toggleForm(){
+        setFileForm(true)
+    }
+
+
+
     useEffect(() => {
         getAllQuestions()
     }, [])
@@ -233,12 +243,14 @@ export default function CreateEsgreport(){
             <GrievanceQuestions grievanceQuestions={grievanceQuestions} changeGrievanceQuestions={changeGrievanceQuestions} />
 
             <button onClick={() => {sendDetails(false)}}>Save Details</button>
+            <p onClick={download}>Download</p>
 
-            <form onSubmit={submitFile}>
+            {fileForm && <form onSubmit={submitFile}>
                 <input type="file" onChange={uploadFile} />
                 <input type="submit" />
-            </form>
-            <p onClick={download}>Download</p>
+            </form>}
+
+            <button onClick={toggleForm}>Attach File</button>
         </>
     )
 }

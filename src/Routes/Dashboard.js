@@ -20,6 +20,8 @@ export default function Dashboard(){
     async function getAllReports(){
         const email = sessionStorage.getItem("email")
         const response = await getReports(email)
+        setPendingReports(response.pendingReports)
+        setSubmittedReports(response.submittedReports)
     }
 
     function gotoCreateReport(){
