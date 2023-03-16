@@ -8,7 +8,7 @@ const multer = require('multer');
 
 
 const { login, signUp} = require("./Controllers/EsgUsers.js")
-const { getQuestions, saveResponse } = require("./Controllers/Questions.js")
+const { getQuestions, saveResponse, getReports } = require("./Controllers/Questions.js")
 
 require('dotenv').config()
 const app = express()
@@ -46,6 +46,8 @@ app.post("/api/login", login)
 app.post("/api/signUp", signUp)
 
 app.get("/api/getQuestions/:cin", getQuestions)
+
+app.get("/api/getReports/:email", getReports)
 
 app.listen("4002", () => {
     console.log("Server running...")

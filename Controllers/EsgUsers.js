@@ -33,7 +33,8 @@ async function signUp(req, res){
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        reports: []
+        reports: [],
+        sharedReports: []
     })
     const token = jwt.sign({
         email: req.body.email

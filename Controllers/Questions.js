@@ -3,6 +3,7 @@ const  { processInputData } = require("../Utils/ProcessData.js")
 const  { updateGeneralQuestions, updateLocationQuestions, updateTypeOfCustomers, updateWorkerQuestions, updateGrievanceQuestions } = require("../Utils/ProcessData.js")
 
 const EsgReport = require("../Schemas/EsgReport.js")
+const EsgUser = require("../Schemas/EsgUser.js")
 
 
 const generalQuestions = [
@@ -687,7 +688,27 @@ async function saveResponse(req, res){
     }
     else{
         await EsgReport.create(esgReportData)
+        const esgUser = await EsgUser.findOne({email: req.body.email})
+        esgUser.reports.push(esgReportData.cin)
+        esgUser.save()
     }
 }
 
-module.exports = { getQuestions, saveResponse }
+async function getReports(req, res){
+    const esgUser = await EsgUser.findOne({email: req.params.email})
+    const pendingReports = []
+    const submittedReports = []
+    for(let i = 0; i < esgUser.reports.length; i++){
+        const esgReport = await EsgReport.findOne({cin: esgUser.reports[i]})
+        if(esgReport.submitted){
+            submittedReports.push(esgUser.reports[i])
+        }
+        else{
+            pendingReports.push(esgUser.reports[i])
+        }
+    }
+    res.json({status: 200, pendingReports, submittedReports})
+}
+
+
+module.exports = { getQuestions, saveResponse, getReports }

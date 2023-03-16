@@ -73,7 +73,8 @@ const EsgReport = new mongoose.Schema(
                 yesno: String,
                 details: String
         },
-        attachedFiles: [ { type: String } ]
+        attachedFiles: [ { type: String } ],
+        submitted: { type: Boolean }
     }
 )
 

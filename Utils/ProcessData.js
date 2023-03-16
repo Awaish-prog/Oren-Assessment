@@ -62,6 +62,8 @@ function processInputData(data){
 
     esgReportData.attachedFiles = []
 
+    esgReportData.submitted = data.submitted
+
     return esgReportData
 }
 
