@@ -7,6 +7,7 @@ export default function SignUp(){
     const [ name, setName ] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [message, setMessage] = useState("")
 
     function changeEmail(e){
         setEmail(e.target.value)
@@ -30,7 +31,7 @@ export default function SignUp(){
             navigate("/dashboard")
         }
         else{
-            console.log("User already exists");
+            setMessage("A user with this already exists")
         }
     }
 
@@ -50,6 +51,7 @@ export default function SignUp(){
 
                 <input type="submit" />
             </form>
+            <p>{message}</p>
             <p>Already have an account? <Link to="/">Login</Link></p>
         </>
     )

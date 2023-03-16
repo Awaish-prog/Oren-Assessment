@@ -6,9 +6,10 @@ import LocationQuestions from "../Components/LocationQuestions"
 import TypeOfCustomers from "../Components/TypeOfCustomers"
 import WorkerQuestions from "../Components/WorkerQuestions"
 import downloadFile from 'downloadjs';
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 export default function CreateEsgreport(){
+    const navigate = useNavigate()
     const location = useLocation()
     const [ generalQuestions, setGeneralQuestions ] = useState([])
     const [ locationQuestions, setLocationQuestions ] = useState([])
@@ -21,6 +22,8 @@ export default function CreateEsgreport(){
     const [ fileForm, setFileForm ] = useState(false)
     const [ attachedFiles, setAttachedFiles ] = useState([])
     const [ guestEmail, setGuestEmail ] = useState("")
+    const [ fileMessage, setFileMessage ] = useState("")
+    const [ saved, setSaved ] = useState(false)
  
     async function getAllQuestions(){
         const id = location.state.id
@@ -31,6 +34,8 @@ export default function CreateEsgreport(){
         setWorkerQuestions(questions.workerQuestions)
         setGrievanceQuestions(questions.grievanceQuestions)
         setWorkerQuestionsDiffAbled(questions.workerQuestionsDiffAbled)
+        setAttachedFiles(questions.attachedFiles)
+        setSaved(questions.saved)
     }
 
     function changeGeneralQuestionsAnswer(e, question){
@@ -179,13 +184,24 @@ export default function CreateEsgreport(){
 
     async function submitFile(e){
         e.preventDefault()
+        const token = sessionStorage.getItem("token")
+        const email = sessionStorage.getItem("email")
         const formData = new FormData();
         formData.append('file', file);
         formData.append('cin', generalQuestions[0].column2.value)
-        await fetch("http://localhost:4002/upload", {
+        let response = await fetch("http://localhost:4002/upload", {
             method: "POST",
+            headers : {
+                "token": token,
+                "email": email
+            },
             body: formData
         })
+        response = await response.json()
+        if(response.status === 404){
+            setFileMessage("Files can't be attached before saving details")
+            return
+        }
         setAttachedFiles((prev) => {
             const newFiles = [...prev]
             newFiles.push(file.name)
@@ -196,10 +212,14 @@ export default function CreateEsgreport(){
     }
 
     async function download(filename){
+        const token = sessionStorage.getItem("token")
+        const email = sessionStorage.getItem("email")
         const response = await fetch("http://localhost:4002/files", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "token": token,
+                "email": email
             },
             body: JSON.stringify({
                 filename
@@ -216,7 +236,8 @@ export default function CreateEsgreport(){
     async function sendDetails(submitted){
         const email = sessionStorage.getItem("email")
         const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted)
-
+        setSaved(true)
+        submitted ? navigate("/dashboard") : console.log("Saved");
     }
 
     function toggleForm(){
@@ -235,7 +256,7 @@ export default function CreateEsgreport(){
     }, [])
     return (
         <>
-            <GeneralQuestions generalQuestions={generalQuestions} changeGeneralQuestionsAnswer={changeGeneralQuestionsAnswer} />
+            <GeneralQuestions generalQuestions={generalQuestions} changeGeneralQuestionsAnswer={changeGeneralQuestionsAnswer} saved={saved}/>
 
             <LocationQuestions locationQuestions={locationQuestions} changelocationQuestionsAnswer = {changelocationQuestionsAnswer} />
 
@@ -272,7 +293,7 @@ export default function CreateEsgreport(){
                 <input type="file" onChange={uploadFile} />
                 <input type="submit" />
             </form>}
-
+            <p>{fileMessage}</p>
             <button onClick={toggleForm}>Attach File</button>
         </>
     )

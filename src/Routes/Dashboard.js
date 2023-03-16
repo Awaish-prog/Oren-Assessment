@@ -25,7 +25,7 @@ export default function Dashboard(){
     }
 
     function gotoCreateReport(){
-        navigate("/createEsgReport", { state: {id: "default"}})
+        navigate("/createEsgReport", { state: {id: "default", access: true}})
     }
 
     useEffect(() => {
@@ -45,8 +45,8 @@ export default function Dashboard(){
 
             {
                 showPendingReports ?
-                <ReportsList reports = {pendingReports} /> :
-                <ReportsList reports = {submittedReports} />
+                <ReportsList reports = {pendingReports} submitted={false} /> :
+                <ReportsList reports = {submittedReports} submitted={true} />
             }
 
             

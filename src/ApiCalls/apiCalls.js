@@ -27,15 +27,24 @@ async function signUpApi(name, email, password){
 }
 
 async function getReports(email){
-    let response = await fetch(`${url}api/getReports/${email}`)
+    const token = sessionStorage.getItem("token")
+    let response = await fetch(`${url}api/getReports/${email}`, {
+        headers: {
+            "token": token,
+            "email": email
+        }
+    })
     return await response.json()
 }
 
 async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted){
-    let response = fetch(`${url}api/saveResponse`, {
+    const token = sessionStorage.getItem("token")
+    let response = await fetch(`${url}api/saveResponse`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "token": token,
+            "email": email
         },
         body: JSON.stringify({
             generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted
@@ -45,15 +54,25 @@ async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustome
 }
 
 async function getQuestions(cin){
-    let response = await fetch(`${url}api/getQuestions/${cin}`)
+    const token = sessionStorage.getItem("token")
+    const email = sessionStorage.getItem("email")
+    let response = await fetch(`${url}api/getQuestions/${cin}`, {
+        headers: {
+            "token": token,
+            "email": email
+        }
+    })
     return await response.json()
 }
 
 async function sendInvite(email, cin){
+    const token = sessionStorage.getItem("token")
     let response = await fetch(`${url}api/inviteSomeone`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "token": token,
+            "email": email
         },
         body: JSON.stringify({
             email, cin
