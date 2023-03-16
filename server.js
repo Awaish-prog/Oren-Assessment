@@ -45,7 +45,7 @@ app.post("/api/login", login)
 
 app.post("/api/signUp", signUp)
 
-app.get("/api/getQuestions", getQuestions)
+app.get("/api/getQuestions/:cin", getQuestions)
 
 app.listen("4002", () => {
     console.log("Server running...")

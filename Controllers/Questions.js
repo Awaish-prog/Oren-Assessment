@@ -1,11 +1,14 @@
 
 const  { processInputData } = require("../Utils/ProcessData.js") 
+const  { updateGeneralQuestions, updateLocationQuestions, updateTypeOfCustomers, updateWorkerQuestions, updateGrievanceQuestions } = require("../Utils/ProcessData.js")
+
 const EsgReport = require("../Schemas/EsgReport.js")
 
 
 const generalQuestions = [
     {
         column1: "Corporate Identity Number (CIN) of the Listed Entity",
+        dbKey: "cin",
         column2: {
             cellType: "text",
             value: ""
@@ -13,6 +16,7 @@ const generalQuestions = [
     },
     {
         column1: "Name of the Listed Entity",
+        dbKey: "listedEntityName",
         column2: {
             cellType: "text",
             value: ""
@@ -20,6 +24,7 @@ const generalQuestions = [
     },
     {
         column1: "Year of Incorpaoration",
+        dbKey: "yearOfIncorporation",
         column2: {
             cellType: "text",
             value: ""
@@ -27,6 +32,7 @@ const generalQuestions = [
     },
     {
         column1: "Registered office address",
+        dbKey: "registeredOfficeAddress",
         column2: {
             cellType: "text",
             value: ""
@@ -34,6 +40,7 @@ const generalQuestions = [
     },
     {
         column1: "Corporate office Address",
+        dbKey: "corporateOfficeAddress",
         column2: {
             cellType: "text",
             value: ""
@@ -41,6 +48,7 @@ const generalQuestions = [
     },
     {
         column1: "Email",
+        dbKey: "email",
         column2: {
             cellType: "email",
             value: ""
@@ -48,6 +56,7 @@ const generalQuestions = [
     },
     {
         column1: "Telephone",
+        dbKey: "telephone",
         column2: {
             cellType: "text",
             value: ""
@@ -55,6 +64,7 @@ const generalQuestions = [
     },
     {
         column1: "Website",
+        dbKey: "website",
         column2: {
             cellType: "text",
             value: ""
@@ -62,6 +72,7 @@ const generalQuestions = [
     },
     {
         column1: "Financial year for which reporting is being done",
+        dbKey: "financialYear",
         column2: {
             cellType: "text",
             value: ""
@@ -69,6 +80,7 @@ const generalQuestions = [
     },
     {
         column1: "Name of Stock Exchanges(s) where shares are listed",
+        dbKey: "nameOfStockExchange",
         column2: {
             cellType: "text",
             value: ""
@@ -76,6 +88,7 @@ const generalQuestions = [
     },
     {
         column1: "Paid-up Capital",
+        dbKey: "paidUpCapital",
         column2: {
             cellType: "number",
             value: 0
@@ -83,6 +96,7 @@ const generalQuestions = [
     },
     {
         column1: "Name and contact details (telephone, email address) of the person who may be contacted in case of any queries on the BRSR report",
+        dbKey: "queryContact",
         column2: {
             cellType: "text",
             value: ""
@@ -90,6 +104,7 @@ const generalQuestions = [
     },
     {
         column1: "Reporting boundary - Are the disclosures under this report made on",
+        dbKey: "reportBoundary",
         column2: {
             cellType: "text",
             value: ""
@@ -132,7 +147,8 @@ const locationQuestions = [
         column4: {
             cellType: "value",
             value: 0
-        }
+        },
+        dbKey: "nationalLocation"
     },
     {
         column1: {
@@ -150,7 +166,8 @@ const locationQuestions = [
         column4: {
             cellType: "value",
             value: 0
-        } 
+        },
+        dbKey: "internationalLocation"
     }
 ]
 
@@ -197,7 +214,8 @@ const workerQuestions = [
     [
         {
             cellType: "label",
-            value: "Permanent Employess(D)"
+            value: "Permanent Employess(D)",
+            dbKey: "permanentEmployees"
         },
         {
             cellType: "value",
@@ -223,7 +241,8 @@ const workerQuestions = [
     [
         {
             cellType: "label",
-            value: "Other than Permanent Employees(E)"
+            value: "Other than Permanent Employees(E)",
+            dbKey: "otherThanPermanentEmployees"
         },
         {
             cellType: "value",
@@ -275,7 +294,8 @@ const workerQuestions = [
     [
         {
             cellType: "label",
-            value: "Permanent Workers(F)"
+            value: "Permanent Workers(F)",
+            dbKey: "permanentWorkers"
         },
         {
             cellType: "value",
@@ -301,7 +321,8 @@ const workerQuestions = [
     [
         {
             cellType: "label",
-            value: "Other than Permanent Workers(G)"
+            value: "Other than Permanent Workers(G)",
+            dbKey: "otherThanPermanentWorkers"
         },
         {
             cellType: "value",
@@ -382,7 +403,8 @@ const workerQuestionsDiffAbled = [
     [
         {
             cellType: "label",
-            value: "Permanent Employess(D)"
+            value: "Permanent Employess(D)",
+            dbKey: "diffAbledpermanentEmployees"
         },
         {
             cellType: "value",
@@ -408,7 +430,8 @@ const workerQuestionsDiffAbled = [
     [
         {
             cellType: "label",
-            value: "Other than Permanent Employees(E)"
+            value: "Other than Permanent Employees(E)",
+            dbKey: "diffAbledotherThanPermanentEmployees"
         },
         {
             cellType: "value",
@@ -460,7 +483,8 @@ const workerQuestionsDiffAbled = [
     [
         {
             cellType: "label",
-            value: "Permanent Workers(F)"
+            value: "Permanent Workers(F)",
+            dbKey: "diffAbledpermanentWorkers"
         },
         {
             cellType: "value",
@@ -486,7 +510,8 @@ const workerQuestionsDiffAbled = [
     [
         {
             cellType: "label",
-            value: "Other than Permanent Workers(G)"
+            value: "Other than Permanent Workers(G)",
+            dbKey: "diffAbledotherThanPermanentWorkers"
         },
         {
             cellType: "value",
@@ -564,7 +589,8 @@ const grievanceQuestions = [
                 "Yes",
                 "No"
             ],
-            value: "N/A"
+            value: "N/A",
+            dbKey: "grievancesPermanentWorkers"
         },
         {
             cellType: "text",
@@ -583,7 +609,8 @@ const grievanceQuestions = [
                 "Yes",
                 "No"
             ],
-            value: "N/A"
+            value: "N/A",
+            dbKey: "grievancesOtherThanPermanentWorkers"
         },
         {
             cellType: "text",
@@ -602,7 +629,8 @@ const grievanceQuestions = [
                 "Yes",
                 "No"
             ],
-            value: "N/A"
+            value: "N/A",
+            dbKey: "grievancesPermanentEmployees"
         },
         {
             cellType: "text",
@@ -621,7 +649,8 @@ const grievanceQuestions = [
                 "Yes",
                 "No"
             ],
-            value: "N/A"
+            value: "N/A",
+            dbKey: "grievancesOtherThanPermanentEmployees"
         },
         {
             cellType: "text",
@@ -631,7 +660,24 @@ const grievanceQuestions = [
 ]
 
 async function getQuestions(req, res){
-    res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions})
+    if(req.params.cin === "default"){
+        res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions})
+    }
+    else{
+        const esgReport = await EsgReport.findOne({cin : req.params.cin})
+        if(!esgReport){
+            res.json({status: 404})
+        }
+        else {
+            updateGeneralQuestions(generalQuestions, esgReport)
+            updateLocationQuestions(locationQuestions, esgReport)
+            updateTypeOfCustomers(typeOfCustomers, esgReport)
+            updateWorkerQuestions(workerQuestions, esgReport)
+            updateWorkerQuestions(workerQuestionsDiffAbled, esgReport)
+            updateGrievanceQuestions(grievanceQuestions, esgReport)
+            res.json({status: 200, generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions})
+        }
+    }
 }
 
 async function saveResponse(req, res){

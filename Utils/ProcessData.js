@@ -65,4 +65,62 @@ function processInputData(data){
     return esgReportData
 }
 
-module.exports = { processInputData }
+function updateGeneralQuestions(generalQuestions, esgReport){
+    for(let i = 0; i < generalQuestions.length; i++){
+        generalQuestions[i].column2.value = esgReport[generalQuestions[i].dbKey]
+    }
+}
+
+function updateLocationQuestions(locationQuestions, esgReport){
+    for(let i = 1; i < locationQuestions.length; i++){
+        locationQuestions[i].column2.value = esgReport[locationQuestions[i].dbKey].plants
+        locationQuestions[i].column3.value = esgReport[locationQuestions[i].dbKey].offices
+        locationQuestions[i].column4.value = esgReport[locationQuestions[i].dbKey].plants + esgReport[locationQuestions[i].dbKey].offices
+    }
+}
+
+function updateTypeOfCustomers(typeOfCustomers, esgReport){
+    for(let i = 0; i < esgReport.typeOfCustomers.length; i++){
+        if(i + 1 >= typeOfCustomers.length){
+            typeOfCustomers.push([i + 1, "", "cross"])
+        }
+        typeOfCustomers[i + 1][1] = esgReport.typeOfCustomers[i]
+    }
+}
+
+function updateWorkerQuestions(workerQuestions, esgReport){
+    for(let i = 1; i < workerQuestions.length; i++){
+        if("dbKey" in workerQuestions[i][0]){
+            workerQuestions[i][2].value = esgReport[workerQuestions[i][0].dbKey].male
+            workerQuestions[i][4].value = esgReport[workerQuestions[i][0].dbKey].female
+            workerQuestions[i][1].value = esgReport[workerQuestions[i][0].dbKey].male + esgReport[workerQuestions[i][0].dbKey].female
+            workerQuestions[i][3].value = ((esgReport[workerQuestions[i][0].dbKey].male / workerQuestions[i][1].value) * 100).toFixed(2) == "NaN" ?
+            0 :
+            ((esgReport[workerQuestions[i][0].dbKey].male / workerQuestions[i][1].value) * 100).toFixed(2)
+            workerQuestions[i][5].value = ((esgReport[workerQuestions[i][0].dbKey].female / workerQuestions[i][1].value) * 100).toFixed(2) == "NaN" ?
+            0 :
+            ((esgReport[workerQuestions[i][0].dbKey].female / workerQuestions[i][1].value) * 100).toFixed(2)
+        }
+        else{
+            workerQuestions[i][1].value = workerQuestions[i - 1][1].value + workerQuestions[i - 2][1].value
+            workerQuestions[i][2].value = workerQuestions[i - 1][2].value + workerQuestions[i - 2][2].value
+            workerQuestions[i][3].value = ((Number(workerQuestions[i - 1][3].value) + Number(workerQuestions[i - 2][3].value)) / 2).toFixed(2) == "NaN" ?
+            0 :
+            ((Number(workerQuestions[i - 1][3].value) + Number(workerQuestions[i - 2][3].value)) / 2).toFixed(2)
+            
+            workerQuestions[i][4].value = workerQuestions[i - 1][4].value + workerQuestions[i - 2][4].value
+            workerQuestions[i][5].value = ((Number(workerQuestions[i - 1][5].value) + Number(workerQuestions[i - 2][5].value)) / 2).toFixed(2) == "NaN" ?
+            0 :
+            ((Number(workerQuestions[i - 1][5].value) + Number(workerQuestions[i - 2][5].value)) / 2).toFixed(2)
+        }
+    }
+}
+
+function updateGrievanceQuestions(grievanceQuestions, esgReport){
+    for(let i = 1; i < grievanceQuestions.length; i++){
+        grievanceQuestions[i][1].value = esgReport[grievanceQuestions[i][1].dbKey].yesno
+        grievanceQuestions[i][2].value = esgReport[grievanceQuestions[i][1].dbKey].details
+    }
+}
+
+module.exports = { processInputData, updateGeneralQuestions, updateLocationQuestions, updateTypeOfCustomers, updateWorkerQuestions, updateGrievanceQuestions }
