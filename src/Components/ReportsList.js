@@ -4,15 +4,15 @@ export default function ReportsList({ reports }){
 
     const navigate = useNavigate()
 
-    function editReport(id){
-        navigate("/createEsgReport", { state: { id }})
+    function editReport(id, access){
+        navigate("/createEsgReport", { state: { id, access }})
     }
 
     return (
         <>
             {
                 reports.map((report, index) => {
-                   return  <p key={index} onClick={() => {editReport(report)}}>{report}</p>
+                   return  <p key={index} onClick={() => {editReport(report.cin, report.access)}}>{report.cin}</p>
                 })
             }
         </>

@@ -7,6 +7,7 @@ export default function Login(){
     const navigate = useNavigate()
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [message, setMessage] = useState("")
 
     function changeEmail(e){
         setEmail(e.target.value)
@@ -26,10 +27,10 @@ export default function Login(){
             navigate("/dashboard")
         }
         else if(response.status === 404){
-            console.log("does not exist") 
+            setMessage("does not exist") 
         }
         else{
-            console.log("wrong password");
+            setMessage("wrong password");
         }
     }
 
@@ -46,6 +47,7 @@ export default function Login(){
 
                 <input type="submit" />
             </form>
+            <p>{message}</p>
             <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
         </>
     )

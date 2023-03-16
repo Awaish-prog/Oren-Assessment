@@ -48,4 +48,17 @@ async function getQuestions(cin){
     let response = await fetch(`${url}api/getQuestions/${cin}`)
     return await response.json()
 }
-export { loginApi, signUpApi, getQuestions, sendEsgDetails, getReports }
+
+async function sendInvite(email, cin){
+    let response = await fetch(`${url}api/inviteSomeone`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email, cin
+        })
+    })
+    return await response.json()
+}
+export { loginApi, signUpApi, getQuestions, sendEsgDetails, getReports, sendInvite }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getQuestions, sendEsgDetails } from "../ApiCalls/apiCalls"
+import { getQuestions, sendEsgDetails, sendInvite } from "../ApiCalls/apiCalls"
 import GeneralQuestions from "../Components/GeneralQuestions"
 import GrievanceQuestions from "../Components/GrievanceQuestions"
 import LocationQuestions from "../Components/LocationQuestions"
@@ -19,6 +19,8 @@ export default function CreateEsgreport(){
     const [ displayDiffAbled, setDisplayDiffAbled ] = useState(false)
     const [ file, setFile ] = useState(null)
     const [ fileForm, setFileForm ] = useState(false)
+    const [ attachedFiles, setAttachedFiles ] = useState([])
+    const [ guestEmail, setGuestEmail ] = useState("")
  
     async function getAllQuestions(){
         const id = location.state.id
@@ -184,12 +186,16 @@ export default function CreateEsgreport(){
             method: "POST",
             body: formData
         })
+        setAttachedFiles((prev) => {
+            const newFiles = [...prev]
+            newFiles.push(file.name)
+            return newFiles
+        })
         setFile(null)
         setFileForm(false)
     }
 
-    async function download(){
-        const filename = "ClassTimes.txt"
+    async function download(filename){
         const response = await fetch("http://localhost:4002/files", {
             method: "POST",
             headers: {
@@ -217,6 +223,11 @@ export default function CreateEsgreport(){
         setFileForm(true)
     }
 
+    async function inviteSomeone(e){
+        e.preventDefault()
+        let response = await sendInvite(guestEmail, generalQuestions[0].column2.value)
+        console.log(response);
+    }
 
 
     useEffect(() => {
@@ -242,8 +253,20 @@ export default function CreateEsgreport(){
 
             <GrievanceQuestions grievanceQuestions={grievanceQuestions} changeGrievanceQuestions={changeGrievanceQuestions} />
 
+            <form onSubmit={inviteSomeone}>
+                <h3>Invite Someone</h3>
+                <input type="email" value={guestEmail} onChange={(e) => {setGuestEmail(e.target.value)}} />
+                <input type="submit" />
+            </form>
+
             <button onClick={() => {sendDetails(false)}}>Save Details</button>
-            <p onClick={download}>Download</p>
+            { location.state.access && <button onClick={() => {sendDetails(true)}}>Submit</button>}
+
+            {
+                attachedFiles.map((attachedFile, index) => {
+                    return <p onClick={() => {download(attachedFile)}}>{attachedFile}</p>
+                })
+            }
 
             {fileForm && <form onSubmit={submitFile}>
                 <input type="file" onChange={uploadFile} />
