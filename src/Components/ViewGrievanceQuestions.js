@@ -1,3 +1,6 @@
+import "../CSS/ViewReport.css"
+
+
 export default function ViewGrievanceQuestions({ grievanceQuestions }){
     return (
         <>
@@ -8,7 +11,7 @@ export default function ViewGrievanceQuestions({ grievanceQuestions }){
                                 return <tr key={row}>
                                     {
                                         grievanceQuestion.map((cell, col) => {
-                                            return <td key={col}>{cell.value}</td>
+                                            return <td className={row === 0 ? "viewanswers viewTableHead" : "viewanswers"} key={col}>{cell.value}</td>
                                         })
                                     }
                                 </tr>

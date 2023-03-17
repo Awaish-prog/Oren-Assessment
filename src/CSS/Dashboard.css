@@ -12,3 +12,9 @@ ul {
     list-style: none;
     gap: 20px;
 }
+ul > li {
+    cursor: pointer;
+}
+ul > li:hover {
+    text-decoration: underline;
+}

@@ -1,3 +1,5 @@
+import "../CSS/ViewReport.css"
+
 export default function ViewLocationQuestions({ locationQuestions }){
     return (
         <>
@@ -6,10 +8,10 @@ export default function ViewLocationQuestions({ locationQuestions }){
                     {
                         locationQuestions.map((locationQuestion, index) => {
                             return <tr key={index}>
-                                <td>{locationQuestion.column1.value}</td>
-                                <td>{locationQuestion.column2.value}</td>
-                                <td>{locationQuestion.column3.value}</td>
-                                <td>{locationQuestion.column4.value}</td>
+                                <td className={index === 0 ? "viewanswers viewTableHead" : "viewanswers"}>{locationQuestion.column1.value}</td>
+                                <td className={index === 0 ? "viewanswers viewTableHead" : "viewanswers"}>{locationQuestion.column2.value}</td>
+                                <td className={index === 0 ? "viewanswers viewTableHead" : "viewanswers"}>{locationQuestion.column3.value}</td>
+                                <td className={index === 0 ? "viewanswers viewTableHead" : "viewanswers"}>{locationQuestion.column4.value}</td>
                             </tr>
                         })
                     }

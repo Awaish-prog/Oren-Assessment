@@ -12,10 +12,10 @@ export default function GeneralQuestions({ generalQuestions, changeGeneralQuesti
                         <td className="generalQuestion">
                             {generalQuestion.column1}
                         </td>
-                        <td>{
+                        <td className="generalAnswer">{
                             saved && generalQuestion.dbKey === "cin" ?
-                            <span className="generalAnswer">generalQuestion.column2.value</span> :
-                             <input className="generalAnswer" type={generalQuestion.column2.cellType} value={generalQuestion.column2.value} onChange= {
+                            <span>{generalQuestion.column2.value}</span> :
+                             <input className="generalInput" type={generalQuestion.column2.cellType} value={generalQuestion.column2.value} onChange= {
                                 (e) => {
                                     changeGeneralQuestionsAnswer(e, generalQuestion.column1)
                                 }

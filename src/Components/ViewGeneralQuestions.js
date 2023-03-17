@@ -1,22 +1,25 @@
+import "../CSS/ViewReport.css"
+
+
 export default function ViewGeneralQuestions({ generalQuestions }){
     return (
         <>
-            <table>
+            <table className="viewGeneralTable">
                 <thead>
                     <tr>
-                        <td>Questions</td>
-                        <td>Answers</td>
+                        <td className="viewquestions viewTableHead">Questions</td>
+                        <td className="viewanswers viewTableHead">Answers</td>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         generalQuestions.map((generalQuestion, index) => {
                            return <tr key={index}>
-                                    <td>{generalQuestion.column1}</td>
+                                    <td className="viewquestions">{generalQuestion.column1}</td>
                                     {
                                         generalQuestion.column2.value ?
-                                        <td>{generalQuestion.column2.value}</td>:
-                                        <td>Answer not provided</td>
+                                        <td className="viewanswers">{generalQuestion.column2.value}</td>:
+                                        <td className="viewanswers">Answer not provided</td>
                                     } 
                                 </tr>
                         })

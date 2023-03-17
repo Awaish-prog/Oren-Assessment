@@ -19,4 +19,8 @@
 }
 .generalAnswer {
     width: 20vw;
+    padding: 0 10px;
+}
+.generalInput {
+    border: none;
 }

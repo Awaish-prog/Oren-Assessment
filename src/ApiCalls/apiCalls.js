@@ -37,7 +37,7 @@ async function getReports(email){
     return await response.json()
 }
 
-async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted){
+async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, attachedFiles, email, submitted){
     const token = sessionStorage.getItem("token")
     let response = await fetch(`${url}api/saveResponse`, {
         method: "POST",
@@ -47,7 +47,7 @@ async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustome
             "email": email
         },
         body: JSON.stringify({
-            generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted
+            generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, attachedFiles, email, submitted
         })
     })
     return await response.json()
@@ -80,4 +80,21 @@ async function sendInvite(email, cin){
     })
     return await response.json()
 }
-export { loginApi, signUpApi, getQuestions, sendEsgDetails, getReports, sendInvite }
+
+async function deleteFile(fileName, cin){
+    const token = sessionStorage.getItem("token")
+    const email = sessionStorage.getItem("email")
+    let response = await fetch(`${url}api/deleteFile`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "token": token,
+            "email": email
+        },
+        body: JSON.stringify({
+            fileName, cin
+        })
+    })
+    return await response.json()
+}
+export { loginApi, signUpApi, getQuestions, sendEsgDetails, getReports, sendInvite, deleteFile }

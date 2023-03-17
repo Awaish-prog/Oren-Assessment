@@ -1,3 +1,6 @@
+import "../CSS/ViewReport.css"
+
+
 export default function ViewWorkerQuestions({ workerQuestions }){
     return (
         <>
@@ -8,7 +11,7 @@ export default function ViewWorkerQuestions({ workerQuestions }){
                             return <tr key={row}>
                                 {
                                     workerQuestion.map((cell, col) => {
-                                        return <td key={col}>
+                                        return <td className={row === 0 ? "viewanswers viewTableHead" : "viewanswers"} key={col}>
                                             {
                                                 (row === 0 && (col === 2 || col === 3)) ?
                                                 ` Male ${cell.value}` :

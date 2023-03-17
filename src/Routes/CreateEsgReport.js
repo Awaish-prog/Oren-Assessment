@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getQuestions, sendEsgDetails, sendInvite } from "../ApiCalls/apiCalls"
+import { getQuestions, sendEsgDetails, sendInvite, deleteFile } from "../ApiCalls/apiCalls"
 import GeneralQuestions from "../Components/GeneralQuestions"
 import GrievanceQuestions from "../Components/GrievanceQuestions"
 import LocationQuestions from "../Components/LocationQuestions"
@@ -8,6 +8,7 @@ import WorkerQuestions from "../Components/WorkerQuestions"
 import downloadFile from 'downloadjs';
 import { useLocation, useNavigate } from "react-router-dom"
 import "../CSS/WorkerQuestions.css"
+import "../CSS/CreateEsgReport.css"
 
 export default function CreateEsgreport(){
     const navigate = useNavigate()
@@ -238,7 +239,7 @@ export default function CreateEsgreport(){
     async function sendDetails(submitted){
         const email = sessionStorage.getItem("email")
         sessionStorage.setItem("id", generalQuestions[0].column2.value)
-        const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted)
+        const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions,attachedFiles, email, submitted)
         setSaved(true)
         submitted ? navigate("/dashboard") : console.log("Saved");
     }
@@ -253,12 +254,23 @@ export default function CreateEsgreport(){
         console.log(response);
     }
 
+    async function deleteThisFile(fileName, cin){
+        setAttachedFiles((prev) => {
+            const newFiles = [...prev]
+            const index = newFiles.indexOf(fileName)
+            newFiles.splice(index, 1)
+            return newFiles
+        })
+        let response = await deleteFile(fileName, cin)
+    }
+
 
     useEffect(() => {
         getAllQuestions()
     }, [])
     return (
         <>
+        <h1 className="attachHeading">Create ESG Report</h1>
             <GeneralQuestions generalQuestions={generalQuestions} changeGeneralQuestionsAnswer={changeGeneralQuestionsAnswer} saved={saved}/>
 
             <LocationQuestions locationQuestions={locationQuestions} changelocationQuestionsAnswer = {changelocationQuestionsAnswer} />
@@ -282,27 +294,44 @@ export default function CreateEsgreport(){
 
             <GrievanceQuestions grievanceQuestions={grievanceQuestions} changeGrievanceQuestions={changeGrievanceQuestions} />
 
-            <form onSubmit={inviteSomeone}>
-                <h3>Invite Someone</h3>
-                <input type="email" value={guestEmail} onChange={(e) => {setGuestEmail(e.target.value)}} />
-                <input type="submit" />
-            </form>
+            
 
-            <button onClick={() => {sendDetails(false)}}>Save Details</button>
-            { location.state.access && <button onClick={() => {sendDetails(true)}}>Submit</button>}
-
+            <h2 className="attachHeading">Add Attachments</h2>
+            <div className="filesList">
             {
+                attachedFiles.length === 0 ?
+                <h3>No Files Attched</h3> :
                 attachedFiles.map((attachedFile, index) => {
-                    return <p onClick={() => {download(attachedFile)}}>{attachedFile}</p>
+                    return <>
+                    <p onClick={() => {download(attachedFile)}}>{attachedFile}</p>
+                    <button onClick={() => {deleteThisFile(attachedFile, generalQuestions[0].column2.value)}}>Delete</button>
+                    </>
                 })
             }
-
-            {fileForm && <form onSubmit={submitFile}>
+            </div>
+            <div className="attachFileSection">
+            {fileForm && <form onSubmit={submitFile} className="reportForms">
                 <input type="file" onChange={uploadFile} />
-                <input type="submit" />
+                <input type="submit" className="button" />
             </form>}
             <p>{fileMessage}</p>
             <button onClick={toggleForm}>Attach File</button>
+            </div>
+
+
+            <h2 className="attachHeading">Invite Someone</h2>
+            <div className="attachFileSection">
+            
+            <form onSubmit={inviteSomeone} className="reportForms">
+                
+                <input type="email" value={guestEmail} onChange={(e) => {setGuestEmail(e.target.value)}} />
+                <input type="submit" className="button" />
+            </form>
+            </div>
+            <div className="saveButtons">
+            <button onClick={() => {sendDetails(false)}}>Save Details</button>
+            { location.state.access && <button onClick={() => {sendDetails(true)}}>Submit</button>}
+            </div>
         </>
     )
 }
