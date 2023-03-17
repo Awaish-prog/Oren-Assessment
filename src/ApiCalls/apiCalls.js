@@ -65,8 +65,9 @@ async function getQuestions(cin){
     return await response.json()
 }
 
-async function sendInvite(email, cin){
+async function sendInvite(inviteEmail, cin){
     const token = sessionStorage.getItem("token")
+    const email = sessionStorage.getItem("email")
     let response = await fetch(`${url}api/inviteSomeone`, {
         method: "POST",
         headers: {
@@ -75,7 +76,7 @@ async function sendInvite(email, cin){
             "email": email
         },
         body: JSON.stringify({
-            email, cin
+            inviteEmail, cin
         })
     })
     return await response.json()

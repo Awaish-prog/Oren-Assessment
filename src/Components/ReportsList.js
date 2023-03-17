@@ -16,6 +16,9 @@ export default function ReportsList({ reports, submitted }){
     return (
         <>
             {
+                reports.length === 0 ?
+                submitted ? <h1 className="reportListMessage">You don't have any submitted reports</h1> :
+                <h1 className="reportListMessage">You don't have any pending reports</h1> :
                 reports.map((report, index) => {
                    return  <div key={index} className="report">
                         <p>Corporate Identity Number: {report.cin}</p>

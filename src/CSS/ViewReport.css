@@ -23,3 +23,11 @@
     background-color: rgb(8, 8, 132);
     color: white;
 }
+.viewAttachedFiles {
+    text-decoration: underline;
+    color: rgb(8, 8, 132);
+    cursor: pointer;
+}
+.viewAttachedFiles:hover {
+    color: red;
+}

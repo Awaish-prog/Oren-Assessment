@@ -25,7 +25,7 @@ export default function ViewAttachedFiles({ attachedFiles }){
     return <>
         {
             attachedFiles.map((attachedFile, index) => {
-                return <p key={index} onClick={() => {download(attachedFile)}}>{attachedFile}</p>
+                return <p key={index} className="viewAttachedFiles" onClick={() => {download(attachedFile)}}>{attachedFile}</p>
             })
         }
     </>

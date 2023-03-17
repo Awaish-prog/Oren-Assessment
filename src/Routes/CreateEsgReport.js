@@ -27,6 +27,7 @@ export default function CreateEsgreport(){
     const [ fileMessage, setFileMessage ] = useState("")
     const [ saved, setSaved ] = useState(false)
     const [ workerTab, setWorkerTab ] = useState(true)
+    const [ inviteMessage, setInviteMessage ] = useState("")
  
     async function getAllQuestions(){
         const id = sessionStorage.getItem("id") ? sessionStorage.getItem("id") : location.state.id
@@ -237,6 +238,9 @@ export default function CreateEsgreport(){
     }
 
     async function sendDetails(submitted){
+        if(generalQuestions[0].column2.value === ""){
+            return
+        }
         const email = sessionStorage.getItem("email")
         sessionStorage.setItem("id", generalQuestions[0].column2.value)
         const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions,attachedFiles, email, submitted)
@@ -251,7 +255,7 @@ export default function CreateEsgreport(){
     async function inviteSomeone(e){
         e.preventDefault()
         let response = await sendInvite(guestEmail, generalQuestions[0].column2.value)
-        console.log(response);
+        response.status === 404 ? setInviteMessage("You can't Invite others without saving details") : setInviteMessage("")
     }
 
     async function deleteThisFile(fileName, cin){
@@ -320,6 +324,7 @@ export default function CreateEsgreport(){
 
 
             <h2 className="attachHeading">Invite Someone</h2>
+            <p className="attachHeading">{inviteMessage}</p>
             <div className="attachFileSection">
             
             <form onSubmit={inviteSomeone} className="reportForms">
