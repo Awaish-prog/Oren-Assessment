@@ -1,5 +1,6 @@
 
 const EsgUser = require("../Schemas/EsgUser.js")
+const EsgReport = require("../Schemas/EsgReport.js")
 const jwt = require("jsonwebtoken")
 require('dotenv').config()
 
@@ -43,10 +44,17 @@ async function signUp(req, res){
 }
 
 async function inviteSomeone(req, res){
-    const esgUser = await EsgUser.findOne({email: req.body.email})
-    esgUser.sharedReports.push(req.body.cin)
-    esgUser.save()
-    res.json({status: 200})
+    const esgUser = await EsgUser.findOne({email: req.body.inviteEmail})
+    const esgReport = await EsgReport.findOne({cin: req.body.cin})
+    if(esgUser && esgReport){
+        esgUser.sharedReports.push(req.body.cin)
+        esgUser.save()
+        res.json({status: 200})
+    }
+    else{
+        res.json({status:404})
+    }
+    
 }
 
 module.exports = { login, signUp, inviteSomeone }
