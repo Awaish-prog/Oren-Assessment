@@ -188,8 +188,14 @@ export default function CreateEsgreport(){
 
     async function submitFile(e){
         e.preventDefault()
+
+        if(file === null){
+            setFileMessage("Please select a File")
+            return
+        }
+
         const token = sessionStorage.getItem("token")
-        const email = sessionStorage.getItem("email")
+        const email = sessionStorage.getItem("email").toLowerCase()
         const formData = new FormData();
         formData.append('file', file);
         formData.append('cin', generalQuestions[0].column2.value)
@@ -213,11 +219,12 @@ export default function CreateEsgreport(){
         })
         setFile(null)
         setFileForm(false)
+        setFileMessage("")
     }
 
     async function download(filename){
         const token = sessionStorage.getItem("token")
-        const email = sessionStorage.getItem("email")
+        const email = sessionStorage.getItem("email").toLowerCase()
         const response = await fetch("http://localhost:4002/files", {
             method: "POST",
             headers: {
@@ -234,7 +241,14 @@ export default function CreateEsgreport(){
     }
 
     function uploadFile(e){
-        setFile(e.target.files[0])
+        if(e.target.files[0].name.endsWith("png") || e.target.files[0].name.endsWith("xlsx") || e.target.files[0].name.endsWith("pdf")){
+            setFile(e.target.files[0])
+            setFileMessage("")
+        }
+        else{
+            setFileMessage("Only PDF, excel sheets and image/png can be uploaded")
+            setFileForm(false)
+        }
     }
 
     async function sendDetails(submitted){
@@ -256,6 +270,7 @@ export default function CreateEsgreport(){
         e.preventDefault()
         let response = await sendInvite(guestEmail, generalQuestions[0].column2.value)
         response.status === 404 ? setInviteMessage("You can't Invite others without saving details") : setInviteMessage("")
+        setGuestEmail("")
     }
 
     async function deleteThisFile(fileName, cin){
@@ -308,7 +323,7 @@ export default function CreateEsgreport(){
                 attachedFiles.map((attachedFile, index) => {
                     return <>
                     <p onClick={() => {download(attachedFile)}}>{attachedFile}</p>
-                    <button onClick={() => {deleteThisFile(attachedFile, generalQuestions[0].column2.value)}}>Delete</button>
+                    {location.state.access && <button onClick={() => {deleteThisFile(attachedFile, generalQuestions[0].column2.value)}}>Delete</button>}
                     </>
                 })
             }
@@ -318,21 +333,21 @@ export default function CreateEsgreport(){
                 <input type="file" onChange={uploadFile} />
                 <input type="submit" className="button" />
             </form>}
-            <p>{fileMessage}</p>
+            <p className="colorRed">{fileMessage}</p>
             <button onClick={toggleForm}>Attach File</button>
             </div>
 
 
-            <h2 className="attachHeading">Invite Someone</h2>
-            <p className="attachHeading">{inviteMessage}</p>
+            {location.state.access && <><h2 className="attachHeading">Invite Someone</h2>
+            <p className="attachHeading colorRed">{inviteMessage}</p>
             <div className="attachFileSection">
             
             <form onSubmit={inviteSomeone} className="reportForms">
                 
-                <input type="email" value={guestEmail} onChange={(e) => {setGuestEmail(e.target.value)}} />
+                <input type="email" value={guestEmail} onChange={(e) => {setGuestEmail(e.target.value)}} required placeholder="email"/>
                 <input type="submit" className="button" />
             </form>
-            </div>
+            </div></>}
             <div className="saveButtons">
             <button onClick={() => {sendDetails(false)}}>Save Details</button>
             { location.state.access && <button onClick={() => {sendDetails(true)}}>Submit</button>}

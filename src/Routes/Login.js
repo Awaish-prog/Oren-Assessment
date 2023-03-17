@@ -23,12 +23,12 @@ export default function Login(){
 
         const response = await loginApi(email, password)
         if(response.status === 200){
-            sessionStorage.setItem("email", email)
+            sessionStorage.setItem("email", email.toLowerCase())
             sessionStorage.setItem("token", response.token)
             navigate("/dashboard")
         }
         else if(response.status === 404){
-            setMessage("does not exist") 
+            setMessage("User does not exist") 
         }
         else{
             setMessage("wrong password");
@@ -48,7 +48,7 @@ export default function Login(){
 
                 <input className="button" type="submit" value="Login"/>
             </form>
-            <p>{message}</p>
+            <p className="colorRed">{message}</p>
             <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
         </section>
     )

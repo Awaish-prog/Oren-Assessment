@@ -1,6 +1,7 @@
 const url = "http://localhost:4002/"
 
 async function loginApi(email, password){
+    email = email.toLowerCase()
     let response = await fetch(`${url}api/login`, {
         method: "POST",
         headers: {
@@ -14,6 +15,7 @@ async function loginApi(email, password){
 }
 
 async function signUpApi(name, email, password){
+    email = email.toLowerCase()
     let response = await fetch(`${url}api/signUp`, {
         method: "POST",
         headers: {
@@ -27,6 +29,7 @@ async function signUpApi(name, email, password){
 }
 
 async function getReports(email){
+    email = email.toLowerCase()
     const token = sessionStorage.getItem("token")
     let response = await fetch(`${url}api/getReports/${email}`, {
         headers: {
@@ -39,6 +42,7 @@ async function getReports(email){
 
 async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, attachedFiles, email, submitted){
     const token = sessionStorage.getItem("token")
+    email = email.toLowerCase()
     let response = await fetch(`${url}api/saveResponse`, {
         method: "POST",
         headers: {
@@ -55,7 +59,7 @@ async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustome
 
 async function getQuestions(cin){
     const token = sessionStorage.getItem("token")
-    const email = sessionStorage.getItem("email")
+    const email = sessionStorage.getItem("email").toLowerCase()
     let response = await fetch(`${url}api/getQuestions/${cin}`, {
         headers: {
             "token": token,
@@ -67,7 +71,8 @@ async function getQuestions(cin){
 
 async function sendInvite(inviteEmail, cin){
     const token = sessionStorage.getItem("token")
-    const email = sessionStorage.getItem("email")
+    const email = sessionStorage.getItem("email").toLowerCase()
+    inviteEmail = inviteEmail.toLowerCase()
     let response = await fetch(`${url}api/inviteSomeone`, {
         method: "POST",
         headers: {
@@ -84,7 +89,7 @@ async function sendInvite(inviteEmail, cin){
 
 async function deleteFile(fileName, cin){
     const token = sessionStorage.getItem("token")
-    const email = sessionStorage.getItem("email")
+    const email = sessionStorage.getItem("email").toLowerCase()
     let response = await fetch(`${url}api/deleteFile`, {
         method: "DELETE",
         headers: {

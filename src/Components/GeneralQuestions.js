@@ -1,7 +1,6 @@
 import "../CSS/GeneralQuestions.css"
 
 export default function GeneralQuestions({ generalQuestions, changeGeneralQuestionsAnswer, saved }){
-    console.log(generalQuestions);
     return (
         <section className="generalQuestions">
         <h2>General Questions</h2>

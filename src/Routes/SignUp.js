@@ -28,7 +28,7 @@ export default function SignUp(){
 
         const response = await signUpApi(name, email, password)
         if(response.status === 201){
-            sessionStorage.setItem("email", email)
+            sessionStorage.setItem("email", email.toLowerCase())
             sessionStorage.setItem("token", response.token)
             navigate("/dashboard")
         }
@@ -53,7 +53,7 @@ export default function SignUp(){
 
                 <input className="button" type="submit" value="Sign Up" />
             </form>
-            <p>{message}</p>
+            <p className="colorRed">{message}</p>
             <p>Already have an account? <Link to="/">Login</Link></p>
         </section>
     )
