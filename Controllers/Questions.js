@@ -695,7 +695,16 @@ async function getQuestions(req, res){
 
 async function saveResponse(req, res){
     const esgReportData = processInputData(req.body)
-    if(await EsgReport.findOne({cin: esgReportData.cin})){
+    const esgReport = await EsgReport.findOne({cin: esgReportData.cin})
+    if(esgReport){
+        if(req.body.newReport){
+            res.json({status: 409})
+            return
+        }
+        if(esgReport.submitted){
+            res.json({status: 200})
+            return
+        }
         await EsgReport.updateOne({cin: esgReportData.cin}, esgReportData)
     }
     else{

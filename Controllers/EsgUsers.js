@@ -55,6 +55,9 @@ async function inviteSomeone(req, res){
         esgUser.save()
         res.json({status: 200})
     }
+    else if(!esgUser){
+        res.json({status: 403})
+    }
     else{
         res.json({status:404})
     }

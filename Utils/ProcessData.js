@@ -84,7 +84,7 @@ function updateLocationQuestions(locationQuestions, esgReport){
 function updateTypeOfCustomers(typeOfCustomers, esgReport){
     for(let i = 0; i < esgReport.typeOfCustomers.length; i++){
         if(i + 1 >= typeOfCustomers.length){
-            typeOfCustomers.push([i + 1, "", "cross"])
+            typeOfCustomers.push([i + 1, "", "Delete"])
         }
         typeOfCustomers[i + 1][1] = esgReport.typeOfCustomers[i]
     }

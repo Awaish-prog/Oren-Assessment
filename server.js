@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require("mongoose")
 const multer = require('multer');
 const EsgReport = require("./Schemas/EsgReport.js")
+const fs = require("fs")
 
 
 
@@ -34,6 +35,7 @@ app.post("/upload", authentication, (req, res) => {
     upload(req, res, async function(err){
         const esgReport = await EsgReport.findOne({cin: req.body.cin})
         if(!esgReport){
+            fs.unlinkSync(`./public/${req.file.originalname}`)
             res.json({status: 404})
             return
         }
