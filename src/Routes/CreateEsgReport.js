@@ -9,6 +9,8 @@ import downloadFile from 'downloadjs';
 import { useLocation, useNavigate } from "react-router-dom"
 import "../CSS/WorkerQuestions.css"
 import "../CSS/CreateEsgReport.css"
+import CircularProgress from '@mui/material/CircularProgress';
+import "../CSS/Loader.css"
 
 export default function CreateEsgreport(){
     const navigate = useNavigate()
@@ -28,6 +30,9 @@ export default function CreateEsgreport(){
     const [ saved, setSaved ] = useState(false)
     const [ workerTab, setWorkerTab ] = useState(true)
     const [ inviteMessage, setInviteMessage ] = useState("")
+    const [ newReport, setNewReport ] = useState(false)
+    const [ cinMessage, setCinMessage ] = useState("")
+    const [ loader, setLoader ] = useState(true)
  
     async function getAllQuestions(){
         const id = sessionStorage.getItem("id") ? sessionStorage.getItem("id") : location.state.id
@@ -40,6 +45,7 @@ export default function CreateEsgreport(){
         setWorkerQuestionsDiffAbled(questions.workerQuestionsDiffAbled)
         setAttachedFiles(questions.attachedFiles)
         setSaved(questions.saved)
+        setLoader(false)
     }
 
     function changeGeneralQuestionsAnswer(e, question){
@@ -115,14 +121,16 @@ export default function CreateEsgreport(){
 
             newWorkerQuestions[row][1].value = Number(newWorkerQuestions[row][2].value) + Number(newWorkerQuestions[row][4].value)
 
-            newWorkerQuestions[row][3].value = (Number(newWorkerQuestions[row][2].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
+            newWorkerQuestions[row][3].value = (Number(Number(newWorkerQuestions[row][2].value) / Number(newWorkerQuestions[row][1].value)) * 100).toFixed(2) === "NaN" ? 0 :
+            (Number(Number(newWorkerQuestions[row][2].value) / Number(newWorkerQuestions[row][1].value)) * 100).toFixed(2)
 
-            newWorkerQuestions[row][5].value = (Number(newWorkerQuestions[row][4].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
+            newWorkerQuestions[row][5].value = (Number(newWorkerQuestions[row][4].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2) === "NaN" ? 0 :
+            (Number(newWorkerQuestions[row][4].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
 
 
             for(let i = 1; i < 6; i++){
-                if(i === 3){
-                    newWorkerQuestions[3][i].value = (Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value) / 2).toFixed(2)
+                if(i === 3 || i === 5){
+                    newWorkerQuestions[3][i].value = ((Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value)) / 2).toFixed(2)
                 }
                 else {
                     newWorkerQuestions[3][i].value = Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value)
@@ -130,8 +138,8 @@ export default function CreateEsgreport(){
             }
 
             for(let i = 1; i < 6; i++){
-                if(i === 3){
-                    newWorkerQuestions[6][i].value = (Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value) / 2).toFixed(2)
+                if(i === 3 || i === 5){
+                    newWorkerQuestions[6][i].value = ((Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value)) / 2).toFixed(2)
                 }
                 else {
                     newWorkerQuestions[6][i].value = Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value)
@@ -149,14 +157,16 @@ export default function CreateEsgreport(){
 
             newWorkerQuestions[row][1].value = Number(newWorkerQuestions[row][2].value) + Number(newWorkerQuestions[row][4].value)
 
-            newWorkerQuestions[row][3].value = (Number(newWorkerQuestions[row][2].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
+            newWorkerQuestions[row][3].value = (Number(newWorkerQuestions[row][2].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2) === "NaN" ? 0 :
+            (Number(newWorkerQuestions[row][2].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
 
-            newWorkerQuestions[row][5].value = (Number(newWorkerQuestions[row][4].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
+            newWorkerQuestions[row][5].value = (Number(newWorkerQuestions[row][4].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2) === "NaN" ? 0 :
+            (Number(newWorkerQuestions[row][4].value) / Number(newWorkerQuestions[row][1].value) * 100).toFixed(2)
 
 
             for(let i = 1; i < 6; i++){
-                if(i === 3){
-                    newWorkerQuestions[3][i].value = (Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value) / 2).toFixed(2)
+                if(i === 3 || i === 5){
+                    newWorkerQuestions[3][i].value = ((Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value)) / 2).toFixed(2)
                 }
                 else {
                     newWorkerQuestions[3][i].value = Number(newWorkerQuestions[1][i].value) + Number(newWorkerQuestions[2][i].value)
@@ -164,8 +174,8 @@ export default function CreateEsgreport(){
             }
 
             for(let i = 1; i < 6; i++){
-                if(i === 3){
-                    newWorkerQuestions[6][i].value = (Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value) / 2).toFixed(2)
+                if(i === 3 || i === 5){
+                    newWorkerQuestions[6][i].value = ((Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value)) / 2).toFixed(2)
                 }
                 else {
                     newWorkerQuestions[6][i].value = Number(newWorkerQuestions[4][i].value) + Number(newWorkerQuestions[5][i].value)
@@ -193,7 +203,10 @@ export default function CreateEsgreport(){
             setFileMessage("Please select a File")
             return
         }
-
+        if(!saved){
+            setFileMessage("Files can't be attached before saving details")
+            return
+        }
         const token = sessionStorage.getItem("token")
         const email = sessionStorage.getItem("email").toLowerCase()
         const formData = new FormData();
@@ -253,11 +266,16 @@ export default function CreateEsgreport(){
 
     async function sendDetails(submitted){
         if(generalQuestions[0].column2.value === ""){
+            setCinMessage("CIN cannot be empty")
             return
         }
         const email = sessionStorage.getItem("email")
+        const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions,attachedFiles, email, submitted, newReport)
+        if(response.status === 409){
+            setCinMessage("Report with this CIN already exists, you can't create new Report with same CIN")
+            return
+        }
         sessionStorage.setItem("id", generalQuestions[0].column2.value)
-        const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions,attachedFiles, email, submitted)
         setSaved(true)
         submitted ? navigate("/dashboard") : console.log("Saved");
     }
@@ -269,7 +287,9 @@ export default function CreateEsgreport(){
     async function inviteSomeone(e){
         e.preventDefault()
         let response = await sendInvite(guestEmail, generalQuestions[0].column2.value)
-        response.status === 404 ? setInviteMessage("You can't Invite others without saving details") : setInviteMessage("")
+        response.status === 404 ? setInviteMessage("You can't Invite others without saving details") : 
+        response.status === 403 ? setInviteMessage("User with this email does not exist"):
+        setInviteMessage("")
         setGuestEmail("")
     }
 
@@ -283,14 +303,27 @@ export default function CreateEsgreport(){
         let response = await deleteFile(fileName, cin)
     }
 
+    function changeNewReport(){
+        setNewReport(true)
+    }
+
 
     useEffect(() => {
+        if(!sessionStorage.getItem("email")){
+            navigate("/")
+        }
         getAllQuestions()
     }, [])
     return (
         <>
-        <h1 className="attachHeading">Create ESG Report</h1>
-            <GeneralQuestions generalQuestions={generalQuestions} changeGeneralQuestionsAnswer={changeGeneralQuestionsAnswer} saved={saved}/>
+        {
+            loader ?
+            <div className="loader">
+                <CircularProgress size={150} />
+            </div> :
+            <>
+            <h1 className="attachHeading">Create ESG Report</h1>
+            <GeneralQuestions generalQuestions={generalQuestions} changeGeneralQuestionsAnswer={changeGeneralQuestionsAnswer} saved={saved} changeNewReport={changeNewReport}/>
 
             <LocationQuestions locationQuestions={locationQuestions} changelocationQuestionsAnswer = {changelocationQuestionsAnswer} />
 
@@ -348,10 +381,13 @@ export default function CreateEsgreport(){
                 <input type="submit" className="button" />
             </form>
             </div></>}
+            <p className="attachHeading colorRed">{cinMessage}</p>
             <div className="saveButtons">
             <button onClick={() => {sendDetails(false)}}>Save Details</button>
             { location.state.access && <button onClick={() => {sendDetails(true)}}>Submit</button>}
             </div>
+            </>
+            }
         </>
     )
 }

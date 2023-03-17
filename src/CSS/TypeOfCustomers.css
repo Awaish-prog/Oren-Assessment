@@ -24,3 +24,6 @@ input:focus {
     border: 1px solid grey;
     text-align: center;
 }
+.deleteCus{
+    cursor: pointer;
+}

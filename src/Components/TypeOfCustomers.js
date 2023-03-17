@@ -21,7 +21,7 @@ export default function TypeOfCustomers({ typeOfCustomers, changeTypeOfCustomers
                                         changeTypeOfCustomersAnswer(e, index)
                                     }
                                 } /></td>
-                                <td className="typeValues" onClick={() => {
+                                <td className="typeValues deleteCus" onClick={() => {
                                     removeCustomer(index)
                                 }}>{typeOfCustomer[2]}</td>
                             </tr>

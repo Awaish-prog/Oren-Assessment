@@ -40,7 +40,7 @@ async function getReports(email){
     return await response.json()
 }
 
-async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, attachedFiles, email, submitted){
+async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, attachedFiles, email, submitted, newReport){
     const token = sessionStorage.getItem("token")
     email = email.toLowerCase()
     let response = await fetch(`${url}api/saveResponse`, {
@@ -51,7 +51,7 @@ async function sendEsgDetails(generalQuestions, locationQuestions, typeOfCustome
             "email": email
         },
         body: JSON.stringify({
-            generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, attachedFiles, email, submitted
+            generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, attachedFiles, email, submitted, newReport
         })
     })
     return await response.json()

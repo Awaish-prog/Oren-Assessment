@@ -1,6 +1,6 @@
 import "../CSS/GeneralQuestions.css"
 
-export default function GeneralQuestions({ generalQuestions, changeGeneralQuestionsAnswer, saved }){
+export default function GeneralQuestions({ generalQuestions, changeGeneralQuestionsAnswer, saved, changeNewReport }){
     return (
         <section className="generalQuestions">
         <h2>General Questions</h2>
@@ -17,6 +17,7 @@ export default function GeneralQuestions({ generalQuestions, changeGeneralQuesti
                              <input className="generalInput" type={generalQuestion.column2.cellType} value={generalQuestion.column2.value} onChange= {
                                 (e) => {
                                     changeGeneralQuestionsAnswer(e, generalQuestion.column1)
+                                    generalQuestion.dbKey === "cin" && changeNewReport()
                                 }
                             } />
                             }

@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom"
 import { getReports } from "../ApiCalls/apiCalls"
 import ReportsList from "../Components/ReportsList"
 import "../CSS/Dashboard.css"
+import "../CSS/Loader.css"
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Dashboard(){
     const navigate = useNavigate()
     const [ pendingReports, setPendingReports ] = useState([])
     const [ submittedReports, setSubmittedReports ] = useState([])
     const [ showPendingReports, setShowPendingReports ] = useState(true)
+    const [ loader, setLoader ] = useState(true)
 
     function showPending(){
         setShowPendingReports(true)
@@ -23,6 +26,7 @@ export default function Dashboard(){
         const response = await getReports(email)
         setPendingReports(response.pendingReports)
         setSubmittedReports(response.submittedReports)
+        setLoader(false)
     }
 
 
@@ -32,6 +36,9 @@ export default function Dashboard(){
 
     useEffect(() => {
         sessionStorage.removeItem("id")
+        if(!sessionStorage.getItem("email")){
+            navigate("/")
+        }
         getAllReports()
     }, [])
 
@@ -48,10 +55,15 @@ export default function Dashboard(){
             </nav>
             </div>
             {
+                loader ?
+                <div className="loader">
+                    <CircularProgress size={100} />
+                </div> :
                 showPendingReports ?
                 <ReportsList reports = {pendingReports} submitted={false} /> :
                 <ReportsList reports = {submittedReports} submitted={true} />
             }
+            
 
             
         </section>
