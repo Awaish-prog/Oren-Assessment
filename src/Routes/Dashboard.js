@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getReports } from "../ApiCalls/apiCalls"
 import ReportsList from "../Components/ReportsList"
+import "../CSS/Dashboard.css"
 
 export default function Dashboard(){
     const navigate = useNavigate()
@@ -24,16 +25,19 @@ export default function Dashboard(){
         setSubmittedReports(response.submittedReports)
     }
 
+
     function gotoCreateReport(){
         navigate("/createEsgReport", { state: {id: "default", access: true}})
     }
 
     useEffect(() => {
+        sessionStorage.removeItem("id")
         getAllReports()
     }, [])
 
     return (
-        <>
+        <section>
+            <div className="navbar">
             <h1>Dashboard</h1>
             <nav>
                 <ul>
@@ -42,7 +46,7 @@ export default function Dashboard(){
                     <li onClick={showSubmitted}>Submitted reports</li>
                 </ul>
             </nav>
-
+            </div>
             {
                 showPendingReports ?
                 <ReportsList reports = {pendingReports} submitted={false} /> :
@@ -50,6 +54,6 @@ export default function Dashboard(){
             }
 
             
-        </>
+        </section>
     )
 }

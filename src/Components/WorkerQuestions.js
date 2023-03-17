@@ -1,20 +1,22 @@
+import "../CSS/WorkerQuestions.css"
+
 export default function WorkerQuestions({ workerQuestions, changeWorkerQuestions }){
     return (
-        <>
-            <table>
+        <section className="workerQuestions">
+            <table className="workersTable">
                 <thead>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td>Male</td>
-                        <td>Female</td>
+                        <td className="workerHeading"></td>
+                        <td className="workerHeading"></td>
+                        <td className="workerHeading">Male</td>
+                        <td className="workerHeading">Female</td>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         workerQuestions.map((workerQuestion, index1) => {
                             return <tr key={index1}>
-                                <td>
+                                <td className={workerQuestion[0].cellType}>
                                     {
                                         workerQuestion[0].cellType === "label" || workerQuestion[0].cellType === "value" ? 
                                         workerQuestion[0].value :
@@ -26,7 +28,7 @@ export default function WorkerQuestions({ workerQuestions, changeWorkerQuestions
                                     }
                                 </td>
 
-                                <td>
+                                <td className={workerQuestion[1].cellType}>
                                     {
                                         workerQuestion[1].cellType === "label" || workerQuestion[1].cellType === "value" ? 
                                         workerQuestion[1].value :
@@ -41,7 +43,7 @@ export default function WorkerQuestions({ workerQuestions, changeWorkerQuestions
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <td>
+                                                <td className={workerQuestion[2].cellType}>
                                                     {
                                                         workerQuestion[2].cellType === "label" || workerQuestion[2].cellType === "value" ? 
                                                         workerQuestion[2].value :
@@ -55,7 +57,7 @@ export default function WorkerQuestions({ workerQuestions, changeWorkerQuestions
                                                     }
                                                 </td>
 
-                                                <td>
+                                                <td className={workerQuestion[3].cellType}>
                                                     {
                                                         workerQuestion[3].cellType === "label" || workerQuestion[3].cellType === "value" ? 
                                                         workerQuestion[3].value :
@@ -76,7 +78,7 @@ export default function WorkerQuestions({ workerQuestions, changeWorkerQuestions
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <td>
+                                                <td className={workerQuestion[4].cellType}>
                                                     {
                                                         workerQuestion[4].cellType === "label" || workerQuestion[4].cellType === "value" ? 
                                                         workerQuestion[4].value :
@@ -90,7 +92,7 @@ export default function WorkerQuestions({ workerQuestions, changeWorkerQuestions
                                                     }
                                                 </td>
 
-                                                <td>
+                                                <td className={workerQuestion[5].cellType}>
                                                     {
                                                         workerQuestion[5].cellType === "label" || workerQuestion[5].cellType === "value" ? 
                                                         workerQuestion[5].value :
@@ -112,6 +114,6 @@ export default function WorkerQuestions({ workerQuestions, changeWorkerQuestions
                     }
                 </tbody>
             </table>
-        </>
+        </section>
     )
 }

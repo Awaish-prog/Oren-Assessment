@@ -1,25 +1,27 @@
+import "../CSS/TypeOfCustomers.css"
+
 export default function TypeOfCustomers({ typeOfCustomers, changeTypeOfCustomersAnswer, addCustomer, removeCustomer }){
     
     return (
-        <>
+        <section className="typeOfCustomers">
             <h2>Types of Customers</h2>
-            <table>
-                <tbody>
+            <table className="typesTable">
+                <tbody className="typesBody">
                     {typeOfCustomers.length !== 0 && <tr>
-                        <td>{typeOfCustomers[0][0]}</td>
-                        <td>{typeOfCustomers[0][1]}</td>
-                        <td>{typeOfCustomers[0][2]}</td>
+                        <td className="typeValues">{typeOfCustomers[0][0]}</td>
+                        <td className="typeValues">{typeOfCustomers[0][1]}</td>
+                        <td className="typeValues">{typeOfCustomers[0][2]}</td>
                     </tr>}
                     {
                         typeOfCustomers.map((typeOfCustomer, index) => {
                             return index !== 0 && <tr key={index}>
-                                <td>{typeOfCustomer[0]}</td>
-                                <td><input type="text" value={typeOfCustomer[1]} onChange={
+                                <td className="typeValues">{typeOfCustomer[0]}</td>
+                                <td><input className="typeInputs" type="text" value={typeOfCustomer[1]} onChange={
                                     (e) => {
                                         changeTypeOfCustomersAnswer(e, index)
                                     }
                                 } /></td>
-                                <td onClick={() => {
+                                <td className="typeValues" onClick={() => {
                                     removeCustomer(index)
                                 }}>{typeOfCustomer[2]}</td>
                             </tr>
@@ -28,6 +30,6 @@ export default function TypeOfCustomers({ typeOfCustomers, changeTypeOfCustomers
                 </tbody>
             </table>
             <button onClick={addCustomer}>Add</button>
-        </>
+        </section>
     )
 }

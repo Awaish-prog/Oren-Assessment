@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { loginApi } from "../ApiCalls/apiCalls"
 import { Link, useNavigate } from "react-router-dom"
+import "../CSS/LoginSignUp.css"
 
 
 export default function Login(){
@@ -36,19 +37,19 @@ export default function Login(){
 
 
     return (
-        <>
+        <section className="loginSignupSection">
             <h1>Login</h1>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} className="loginSignup">
                 <label htmlFor="email">Email: </label>
                 <input id="email" value={email} type="email" onChange={changeEmail} />
 
                 <label htmlFor="password">Password: </label>
                 <input id="password" value={password} type="password" onChange={changePassword} />
 
-                <input type="submit" />
+                <input className="button" type="submit" value="Login"/>
             </form>
             <p>{message}</p>
             <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
-        </>
+        </section>
     )
 }

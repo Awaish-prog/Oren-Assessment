@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { signUpApi } from "../ApiCalls/apiCalls"
 import { Link, useNavigate } from "react-router-dom"
+import "../CSS/LoginSignUp.css"
+
 
 export default function SignUp(){
     const navigate = useNavigate()
@@ -37,9 +39,9 @@ export default function SignUp(){
 
 
     return (
-        <>
+        <section className="loginSignupSection">
             <h1>Sign Up</h1>
-            <form onSubmit={handleSignUp}>
+            <form onSubmit={handleSignUp} className="loginSignup">
                 <label htmlFor="name">Name: </label>
                 <input id="name" value={name} type="text" onChange={changeName} />
 
@@ -49,10 +51,10 @@ export default function SignUp(){
                 <label htmlFor="password">Password: </label>
                 <input id="password" value={password} type="password" onChange={changePassword} />
 
-                <input type="submit" />
+                <input className="button" type="submit" value="Sign Up" />
             </form>
             <p>{message}</p>
             <p>Already have an account? <Link to="/">Login</Link></p>
-        </>
+        </section>
     )
 }

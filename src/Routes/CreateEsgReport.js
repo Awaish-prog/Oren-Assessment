@@ -7,6 +7,7 @@ import TypeOfCustomers from "../Components/TypeOfCustomers"
 import WorkerQuestions from "../Components/WorkerQuestions"
 import downloadFile from 'downloadjs';
 import { useLocation, useNavigate } from "react-router-dom"
+import "../CSS/WorkerQuestions.css"
 
 export default function CreateEsgreport(){
     const navigate = useNavigate()
@@ -24,9 +25,10 @@ export default function CreateEsgreport(){
     const [ guestEmail, setGuestEmail ] = useState("")
     const [ fileMessage, setFileMessage ] = useState("")
     const [ saved, setSaved ] = useState(false)
+    const [ workerTab, setWorkerTab ] = useState(true)
  
     async function getAllQuestions(){
-        const id = location.state.id
+        const id = sessionStorage.getItem("id") ? sessionStorage.getItem("id") : location.state.id
         const questions = await getQuestions(id)
         setGeneralQuestions(questions.generalQuestions)
         setLocationQuestions(questions.locationQuestions)
@@ -89,7 +91,7 @@ export default function CreateEsgreport(){
 
     function addCustomer(){
         setTypeOfCustomers((prev) => {
-            return prev.length === 1 ? [...prev, [1, "", "cross"]] :[...prev, [prev[prev.length - 1][0] + 1, "", "cross"]]
+            return prev.length === 1 ? [...prev, [1, "", "Delete"]] :[...prev, [prev[prev.length - 1][0] + 1, "", "Delete"]]
         })
     }
 
@@ -235,6 +237,7 @@ export default function CreateEsgreport(){
 
     async function sendDetails(submitted){
         const email = sessionStorage.getItem("email")
+        sessionStorage.setItem("id", generalQuestions[0].column2.value)
         const response = await sendEsgDetails(generalQuestions, locationQuestions, typeOfCustomers, workerQuestions, workerQuestionsDiffAbled, grievanceQuestions, email, submitted)
         setSaved(true)
         submitted ? navigate("/dashboard") : console.log("Saved");
@@ -261,11 +264,16 @@ export default function CreateEsgreport(){
             <LocationQuestions locationQuestions={locationQuestions} changelocationQuestionsAnswer = {changelocationQuestionsAnswer} />
 
             <TypeOfCustomers typeOfCustomers={typeOfCustomers} changeTypeOfCustomersAnswer={changeTypeOfCustomersAnswer} addCustomer={addCustomer} removeCustomer={removeCustomer} />
-
-            <p onClick={() => {setDisplayDiffAbled(false)}}>Employess (Including Differently Abled)</p>
+            <h2 className="empHead">Employees and Workers Detail</h2>
+            <div className="workersNav">
+            <p id={workerTab && `tabClass`} onClick={() => {setDisplayDiffAbled(false)
+                setWorkerTab(true)
+            }}>Employess (Including Differently Abled)</p>
             
-            <p onClick={() => {setDisplayDiffAbled(true)}}>Differently Abled Employees and Workers</p>
-            
+            <p id={!workerTab && `tabClass`} onClick={() => {setDisplayDiffAbled(true)
+                setWorkerTab(false)
+            }}>Differently Abled Employees and Workers</p>
+            </div>
             {
                 displayDiffAbled ? 
                 <WorkerQuestions workerQuestions={workerQuestionsDiffAbled} changeWorkerQuestions={changeWorkerQuestionsDiffAbled} /> :

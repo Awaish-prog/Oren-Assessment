@@ -1,14 +1,17 @@
+import "../CSS/GrievanceQuestions.css"
+
 export default function GrievanceQuestions({ grievanceQuestions, changeGrievanceQuestions }){
     return (
-        <>
+        <section className="grievance">
+        <h2 className="grievanceHead">Is there a mechanism available to receive and redress grievances</h2>
         <table>
             <tbody>
                 {
                     grievanceQuestions.map((grievanceQuestion, index1) => {
-                        return <tr key={index1}>
+                        return <tr className="grievanceRow" key={index1}>
                             {
                                 grievanceQuestion.map((grievanceQuestionCell, index2) => {
-                                    return <td key={index2}>
+                                    return <td className={grievanceQuestionCell.cellType} key={index2}>
                                         {
                                             grievanceQuestionCell.cellType === "label" &&
                                             grievanceQuestionCell.value
@@ -35,6 +38,6 @@ export default function GrievanceQuestions({ grievanceQuestions, changeGrievance
                 }
             </tbody>
         </table>
-        </>
+        </section>
     )
 }

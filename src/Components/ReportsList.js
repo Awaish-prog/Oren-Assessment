@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import "../CSS/ReportsList.css"
 
 export default function ReportsList({ reports, submitted }){
 
@@ -16,8 +17,8 @@ export default function ReportsList({ reports, submitted }){
         <>
             {
                 reports.map((report, index) => {
-                   return  <div key={index}>
-                        <p>{report.cin}</p>
+                   return  <div key={index} className="report">
+                        <p>Corporate Identity Number: {report.cin}</p>
                         {
                             report.access ?
                             <p>You created this report</p> :
