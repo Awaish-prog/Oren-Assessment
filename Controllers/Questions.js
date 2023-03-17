@@ -189,7 +189,7 @@ function initialiseQuestions(){
     [
         1,
         "",
-        "cross"
+        "Delete"
     ]
 ]
 

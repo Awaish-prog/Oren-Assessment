@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-mongoose.connect(process.env.DB_CONNECT)
+mongoose.connect("mongodb://localhost:27017")
 const storage = multer.diskStorage({
     destination: function (req, file, cb){
         cb(null, 'public')
