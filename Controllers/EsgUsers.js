@@ -47,6 +47,10 @@ async function inviteSomeone(req, res){
     const esgUser = await EsgUser.findOne({email: req.body.inviteEmail})
     const esgReport = await EsgReport.findOne({cin: req.body.cin})
     if(esgUser && esgReport){
+        if(esgUser.sharedReports.includes(req.body.cin)){
+            res.json({status: 200})
+            return
+        }
         esgUser.sharedReports.push(req.body.cin)
         esgUser.save()
         res.json({status: 200})

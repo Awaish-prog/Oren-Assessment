@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
 })
 const upload =  multer({ storage: storage }).single("file");
 
-app.post("/upload", (req, res) => {
+app.post("/upload", authentication, (req, res) => {
     upload(req, res, async function(err){
         const esgReport = await EsgReport.findOne({cin: req.body.cin})
         if(!esgReport){
@@ -43,23 +43,23 @@ app.post("/upload", (req, res) => {
     })
 })
 
-app.post("/files", async (req, res) => {
+app.post("/files", authentication, async (req, res) => {
     res.download(`./public/${req.body.filename}`)
 })
 
-app.post("/api/saveResponse", saveResponse);
+app.post("/api/saveResponse", authentication, saveResponse);
 
 app.post("/api/login", login)
 
 app.post("/api/signUp", signUp)
 
-app.post("/api/inviteSomeone", inviteSomeone)
+app.post("/api/inviteSomeone", authentication, inviteSomeone)
 
-app.get("/api/getQuestions/:cin", getQuestions)
+app.get("/api/getQuestions/:cin", authentication, getQuestions)
 
 app.get("/api/getReports/:email", authentication, getReports)
 
-app.delete("/api/deleteFile", deleteFile)
+app.delete("/api/deleteFile", authentication, deleteFile)
 
 app.listen("4002", () => {
     console.log("Server running...")
