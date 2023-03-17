@@ -4,6 +4,7 @@ const  { updateGeneralQuestions, updateLocationQuestions, updateTypeOfCustomers,
 
 const EsgReport = require("../Schemas/EsgReport.js")
 const EsgUser = require("../Schemas/EsgUser.js")
+const fs = require("fs")
 
 let generalQuestions
 let locationQuestions
@@ -737,5 +738,13 @@ async function getReports(req, res){
     res.json({status: 200, pendingReports, submittedReports})
 }
 
+async function deleteFile(req, res){
+    const esgReport = await EsgReport.findOne({cin: req.body.cin})
+    let index = esgReport.attachedFiles.indexOf(req.body.fileName)
+    esgReport.attachedFiles.splice(index, 1)
+    fs.unlinkSync(`./public/${req.body.fileName}`)
+    esgReport.save()
+    res.json({status:200})
+}
 
-module.exports = { getQuestions, saveResponse, getReports }
+module.exports = { getQuestions, saveResponse, getReports, deleteFile }

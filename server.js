@@ -9,7 +9,7 @@ const EsgReport = require("./Schemas/EsgReport.js")
 
 const { authentication } = require("./Middlewares/Authentication.js")
 const { login, signUp, inviteSomeone} = require("./Controllers/EsgUsers.js")
-const { getQuestions, saveResponse, getReports } = require("./Controllers/Questions.js")
+const { getQuestions, saveResponse, getReports, deleteFile } = require("./Controllers/Questions.js")
 
 require('dotenv').config()
 const app = express()
@@ -58,6 +58,8 @@ app.post("/api/inviteSomeone", inviteSomeone)
 app.get("/api/getQuestions/:cin", getQuestions)
 
 app.get("/api/getReports/:email", authentication, getReports)
+
+app.delete("/api/deleteFile", deleteFile)
 
 app.listen("4002", () => {
     console.log("Server running...")

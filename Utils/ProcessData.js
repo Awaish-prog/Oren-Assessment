@@ -60,7 +60,7 @@ function processInputData(data){
         }
     }
 
-    esgReportData.attachedFiles = []
+    esgReportData.attachedFiles = data.attachedFiles
 
     esgReportData.submitted = data.submitted
 
