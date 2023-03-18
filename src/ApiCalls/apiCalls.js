@@ -1,4 +1,4 @@
-const url = "http://localhost:4002/"
+const url = "/"
 
 async function loginApi(email, password){
     email = email.toLowerCase()

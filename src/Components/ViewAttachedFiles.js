@@ -7,7 +7,7 @@ export default function ViewAttachedFiles({ attachedFiles }){
     async function download(filename){
         const token = sessionStorage.getItem("token")
         const email = sessionStorage.getItem("email")
-        const response = await fetch("http://localhost:4002/files", {
+        const response = await fetch("/files", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

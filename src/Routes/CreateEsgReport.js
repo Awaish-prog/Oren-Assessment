@@ -212,7 +212,7 @@ export default function CreateEsgreport(){
         const formData = new FormData();
         formData.append('file', file);
         formData.append('cin', generalQuestions[0].column2.value)
-        let response = await fetch("http://localhost:4002/upload", {
+        let response = await fetch("/upload", {
             method: "POST",
             headers : {
                 "token": token,
@@ -238,7 +238,7 @@ export default function CreateEsgreport(){
     async function download(filename){
         const token = sessionStorage.getItem("token")
         const email = sessionStorage.getItem("email").toLowerCase()
-        const response = await fetch("http://localhost:4002/files", {
+        const response = await fetch("/files", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
