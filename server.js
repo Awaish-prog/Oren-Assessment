@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const multer = require('multer');
 const EsgReport = require("./Schemas/EsgReport.js")
 const fs = require("fs")
+const path = require("path")
 
 
 
@@ -19,6 +20,7 @@ const app = express()
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'build')))
 
 mongoose.connect("mongodb://localhost:27017")
 const storage = multer.diskStorage({
@@ -46,7 +48,13 @@ app.post("/upload", authentication, (req, res) => {
 })
 
 app.post("/files", authentication, async (req, res) => {
-    res.download(`./public/${req.body.filename}`)
+    try{
+        res.download(`./public/${req.body.filename}`)
+    }
+    catch(err){
+        res.json({status: 404})
+    }
+    
 })
 
 app.post("/api/saveResponse", authentication, saveResponse);
@@ -63,6 +71,12 @@ app.get("/api/getReports/:email", authentication, getReports)
 
 app.delete("/api/deleteFile", authentication, deleteFile)
 
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build/index.html"))
+})
+
 app.listen("4002", () => {
     console.log("Server running...")
 })
+
+module.exports = { app }

@@ -40,7 +40,7 @@ async function signUp(req, res){
     const token = jwt.sign({
         email: req.body.email
     }, process.env.KEY);
-    res.json({ status: 201, token })
+    res.status(201).json({ status: 201, token })
 }
 
 async function inviteSomeone(req, res){
