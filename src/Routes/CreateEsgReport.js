@@ -378,13 +378,13 @@ export default function CreateEsgreport(){
             <form onSubmit={inviteSomeone} className="reportForms">
                 
                 <input type="email" value={guestEmail} onChange={(e) => {setGuestEmail(e.target.value)}} required placeholder="email"/>
-                <input type="submit" className="button" />
+                <input type="submit" className="button" value="Send" />
             </form>
             </div></>}
             <p className="attachHeading colorRed">{cinMessage}</p>
             <div className="saveButtons">
-            <button onClick={() => {sendDetails(false)}}>Save Details</button>
-            { location.state.access && <button onClick={() => {sendDetails(true)}}>Submit</button>}
+            <button onClick={() => {sendDetails(false)}}>Save Progress</button>
+            { location.state.access && <button onClick={() => {sendDetails(true)}}>Submit Report</button>}
             </div>
             </>
             }
